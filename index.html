@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="input_list">
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"> </script>
+    <script src="app/controllers/input_list.js"></script>
+</head>
+
+<body>
+    <!-- Put title here -->
+    <!-- Put scrolling options
+        to choose calculation type
+        here -->
+    <h1>Hello!</h1>
+    Please enter your values in the boxes below:
+    <form ng-controller="input_list_ctrl as inlist">
+        <input ng-repeat="row in inlist.rows" 
+            placeholder="Enter a value!" />
+    </form>
+</body>
+</html>
+
