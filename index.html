@@ -12,9 +12,12 @@
         here -->
     <h1>Hello!</h1>
     Please enter your values in the boxes below:
-    <form ng-controller="input_list_ctrl as inlist">
-        <input ng-repeat="row in inlist.rows"
-            placeholder="Enter a value!" />
+    <form ng-controller="input_list_ctrl as inctrl">
+        <input ng-repeat="row in inctrl.rows"
+               ng-model="inctrl.button_model"
+                onblur=""
+                ng-change="inctrl.check_if_add($index)"
+                placeholder="Enter a value!" />
     </form>
 </body>
 </html>
