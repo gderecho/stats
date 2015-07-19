@@ -7,17 +7,28 @@ mod.factory('get_ovar_stats', function() {
         sum = list.reduce(add)
         avg = sum/list.length
         subavg = function(a) {return a-avg;}
-        k2 = list.map(subavg).map(square).reduce(add) / (list.length-1);
-        s = Math.sqrt(k2);
+        s2 = list.map(subavg).map(square).reduce(add) / (list.length-1);
+        s = Math.sqrt(s2);
         return { n:list.length,
-                sum:sum,
                 avg:avg,
-                max:Math.max.apply(null,list),
-                min:Math.min.apply(null,list),
                 s:s,
-                k2:k2
+                s2:s2,
+                sum:sum,
+                max:Math.max.apply(null,list),
+                min:Math.min.apply(null,list)
         };
 
     };
-    return {get:get};
+    var get_detail_desc = function() {
+        return {
+        n:"Number of elements",
+        sum:"Sum of elements",
+        max:"Greatest value in the list of elements",
+        min:"Least value in the list of elements",
+        s2:"Sample variance with Bessel\'s correction",
+        s:"Sample standard deviation with Bessel\'s correction"
+        };
+    }; 
+    return {get:get,
+        get_detail_desc:get_detail_desc};
 });
