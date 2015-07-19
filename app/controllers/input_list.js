@@ -86,9 +86,21 @@ inlist_module.directive('hcHistogram', function() {
         },
         template:'<div id="hist"></div>',
         link: function(scope,element,attrs) {
+            if(scope.values.length < 1)
+                return;
             var chart = new Highcharts.Chart({
                 chart: {type: 'column',renderTo: 'hist'},
-                series: [{data:scope.values}] 
+                series: [{data:scope.values}],
+                plotOptions: {
+                    column:{
+                        shadow:false,
+                        pointPadding:0,
+                        groupPadding:0,
+                        color:'rgba(205,205,205,.9)',
+                        borderColor:'#666',
+                        borderWidth:.4,
+                    }
+                }
             });
             scope.$watch("values", function(n) {
                 chart.series[0].setData(n,true);
