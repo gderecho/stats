@@ -12,14 +12,21 @@
         here -->
     <h1>Hello!</h1>
     Please enter your values in the boxes below:
-    <form ng-controller="input_list_ctrl as inctrl">
+    <form 
+            ng-controller="input_list_ctrl as inctrl"
+            name="input_list"
+            ng-submit=""
+            novalidate>
         <input
                 ng-repeat="input in inctrl.inputs"
                 ng-model="input.text"
                 ng-blur="inctrl.check_if_delete(input)"
                 ng-change="inctrl.check_if_add(input)"
+                ng-pattern="/^\d+$/"
                 placeholder="Enter a value!" />
-        <input type="submit">
+
+        <input  ng-disabled="input_list.$invalid"
+                type="submit" value="Calculate standard statistics" />
     </form>
 </body>
 </html>
