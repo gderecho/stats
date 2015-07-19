@@ -13,10 +13,11 @@
     <h1>Hello!</h1>
     Please enter your values in the boxes below:
     <form ng-controller="input_list_ctrl as inctrl">
-        <input ng-repeat="row in inctrl.rows"
-               ng-model="inctrl.button_model"
-                onblur=""
-                ng-change="inctrl.check_if_add($index)"
+        <input
+                ng-repeat="input in inctrl.inputs"
+                ng-model="input.text"
+                ng-blur="inctrl.check_if_delete(input)"
+                ng-change="inctrl.check_if_add(input)"
                 placeholder="Enter a value!" />
     </form>
 </body>
