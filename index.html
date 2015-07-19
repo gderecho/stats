@@ -3,6 +3,7 @@
 <head>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"> </script>
     <script src="app/controllers/input_list.js"></script>
+    <script src="app/services/one_var_stats.js"></script>
 </head>
 
 <body>
@@ -15,7 +16,7 @@
     <form 
             ng-controller="input_list_ctrl as inctrl"
             name="input_list"
-            ng-submit=""
+            ng-submit="inctrl.stats=inctrl.get_stats()"
             novalidate>
         <input
                 ng-repeat="input in inctrl.inputs"
@@ -26,7 +27,8 @@
                 placeholder="Enter a value!" />
 
         <input  ng-disabled="input_list.$invalid"
-                type="submit" value="Calculate standard statistics" />
+                type="submit" value="Calculate one-variable statistics" />
+        {{inctrl.stats}}
     </form>
 </body>
 </html>
