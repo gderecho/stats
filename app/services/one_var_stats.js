@@ -23,12 +23,23 @@ mod.factory('get_ovar_stats', function() {
         return {
         n:"Number of elements",
         sum:"Sum of elements",
+        avg:"Arithmetic mean of elements",
         max:"Greatest value in the list of elements",
         min:"Least value in the list of elements",
         s2:"Sample variance with Bessel\'s correction",
         s:"Sample standard deviation with Bessel\'s correction"
         };
     }; 
+    var get_symbolic_desc = function() {return {
+        n:"n",
+        sum:"\\sum_i x_i",
+        avg:"\\overline{x}",
+        max:"\\textrm{max}(x_i)",
+        min:"\\textrm{min}(x_i)",
+        s2:"s^2_{n-1}",
+        s:"s_{n-1}",
+    }};
     return {get:get,
-        get_detail_desc:get_detail_desc};
+        get_detail_desc:get_detail_desc,
+    get_symbolic_desc:get_symbolic_desc};
 });

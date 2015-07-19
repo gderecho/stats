@@ -3,6 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"> </script>
+    <script 
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
@@ -31,7 +33,7 @@
     <form 
             ng-controller="input_list_ctrl as inctrl"
             name="input_list"
-            ng-submit="inctrl.stats=inctrl.get_stats()"
+            ng-submit="inctrl.get_stats()"
             novalidate>
         <div class="form-group">
             <label> Current Values </label>
@@ -39,7 +41,7 @@
             <div class="row">
             <div class="col-sm-3" ng-repeat="input in inctrl.inputs">
                 <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
-                ng-pattern="/^\d+$/"
+                ng-pattern="inctrl.NUM_PATTERN"
                 class="form-control">
             </div>
             </div>
@@ -52,7 +54,7 @@
                 ng-model="input.text"
                 ng-blur="inctrl.check_if_delete_editing(input)"
                 ng-change="inctrl.check_if_add(input)"
-                ng-pattern="/^\d+$/"
+                ng-pattern="inctrl.NUM_PATTERN"
                 placeholder="Enter a value!"
                class="form-control" style="width:auto" />
         </div>
@@ -63,11 +65,13 @@
         <table class="table">
             <tr ng-repeat="(key,data) in inctrl.stats">
                 <td>{{inctrl.detail_desc[key]}}</td>
-                <td>{{key}}</td>
-                <td>{{data}}</td>
+                <!-- <td>{{key}}</td> -->
+                <td mathjax-bind="inctrl.symbolic_desc[key]"></td>
+                <td mathjax-bind="data"></td>
             </tr>
         </table>
     </form>
+    $$2+2=4$$
     </div>
 </body>
 </html>
