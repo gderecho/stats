@@ -1,6 +1,6 @@
-var inlist_module = angular.module("input_list", []);
+var inlist_module = angular.module("input_list", ['one_var_stats']);
 
-inlist_module.controller("input_list_ctrl", function() {
+inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_stats) {
     this.inputs = [{id:1, text:""}];
     this.curid = 1;
 
@@ -20,7 +20,17 @@ inlist_module.controller("input_list_ctrl", function() {
         index = this.inputs.indexOf(input)
         if(index != this.inputs.length-1 &&
                 input.text == "") {
-            this.inputs.splice(index,1)
+            this.inputs.splice(index,1);
         }
     };
-});
+    this.get_stats = function() {
+        numbers=[];
+        for (key in this.inputs) {
+            text = this.inputs[key].text;
+            if (text!="")
+                numbers.push(Number(text));
+        }
+        return get_ovar_stats.get(numbers);
+    };
+    this.stats = ""
+}]);
