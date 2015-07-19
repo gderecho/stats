@@ -2,6 +2,7 @@ var inlist_module = angular.module("input_list", ['one_var_stats']);
 
 inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_stats) {
     this.inputs = [];
+    this.numbers=[];
     this.editing = [{id:1, text:""}];
     this.curid = 1;
     // this.NUM_PATTERN = /^\d+$/;
@@ -11,6 +12,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
     this.check_if_number = function(text) {
         return this.NUM_PATTERN.test(text)
     };
+    this.histogram_data = [];
     /* if there is no last blank input
      * field, add a new one */
     this.check_if_add = function(input) {
@@ -56,13 +58,15 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
     }
 
     this.get_stats = function() {
-        numbers=[];
+        this.numbers=[];
         for (key in this.inputs) {
             text = this.inputs[key].text;
             if (text!="")
-                numbers.push(Number(text));
+                this.numbers.push(Number(text));
         }
-        this.stats=get_ovar_stats.get(numbers);
+        this.stats=get_ovar_stats.get(this.numbers);
+        this.histogram_data=(get_ovar_stats.get_histogram_data(this.numbers));
+        console.log(this.histogram_data);
         return this.stats;
     };
     this.stats = {};
@@ -70,10 +74,40 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
     this.detail_desc=get_ovar_stats.get_detail_desc();
 }]);
 
-// the following code was written by
-// Ben Alpert at stackoverflow:
-// http://stackoverflow.com/questions/16087146/   \
-// getting-mathjax-to-update-after-changes-to-angularjs-model
+inlist_module.directive('hcHistogram', function() {
+    return {
+        replace:true,
+        restrict:'C',
+        scope:{
+            values:"=values"
+        },
+        controller:function($scope,$element,$attrs){
+            console.log($scope)
+        },
+        template:'<div id="hist"></div>',
+        link: function(scope,element,attrs) {
+            var chart = new Highcharts.Chart({
+                chart: {type: 'column',renderTo: 'hist'},
+                series: [{data:scope.values}] 
+            });
+            scope.$watch("values", function(n) {
+                chart.series[0].setData(n,true);
+            },true);
+        }
+    };
+});
+
+/* The following directive was taken from
+ * Ben Alpert's answer at stackoverflow:
+ * http://stackoverflow.com/questions/16087146/   \
+ * getting-mathjax-to-update-after-changes-to-angularjs-model
+ *
+ * Available under cc-by-sa 3.0:
+ * http://creativecommons.org/licenses/by-sa/3.0/ 
+ *
+ * Modifications: changed only the name of the 
+ * module and whitespace
+ * */
 inlist_module.directive("mathjaxBind", function() {
     return {
             restrict: "A",

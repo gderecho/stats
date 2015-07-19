@@ -5,6 +5,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"> </script>
     <script 
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="app/js/highcharts-custom.js"></script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
@@ -70,8 +71,10 @@
                 <td mathjax-bind="data"></td>
             </tr>
         </table>
+
+        {{inctrl.numbers}}
+        <div class="hc-histogram" values="inctrl.histogram_data"></div>
     </form>
-    $$2+2=4$$
     </div>
 </body>
 </html>

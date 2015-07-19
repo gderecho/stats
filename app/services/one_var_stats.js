@@ -39,7 +39,82 @@ mod.factory('get_ovar_stats', function() {
         s2:"s^2_{n-1}",
         s:"s_{n-1}",
     }};
+    var get_histogram_data = function(unsorted_values) {
+        if(unsorted_values.length == 0)
+            return;
+        // Freedman-Diaconis rule
+        values = unsorted_values.slice(0);
+        values.sort(function(a,b) {return a-b;});
+        console.log(values);
+        var q1_index = (values.length-1)/4;
+        var q1 = (values[Math.floor(q1_index)]
+            + values[Math.ceil(q1_index)])/2;
+        var q3_index = values.length-1-q1_index;
+        var q3 = (values[Math.floor(q3_index)]
+            + values[Math.ceil(q3_index)])/2;
+        var iqr = q3-q1;
+        var median_index = (values.length-1)/2;
+        var median = (values[Math.floor(median_index)]
+            + values[Math.ceil(median_index)])/2;
+
+        //var bin_width = 2 * iqr * Math.pow((values.length),-1/3);
+        //var num_bins = Math.ceil((values[values.length-1]-values[0])/bin_width);
+        var num_bins = Math.ceil(Math.sqrt(values.length))
+        var bin_width = (values[values.length-1]-values[0])/num_bins
+        // there are limits
+        if(num_bins > 100)
+        {
+            bin_width = (values[values.length-1]-values[0])/6;
+            num_bins = Math.ceil((values[values.length-1]-values[0])/bin_width);
+        }
+
+        bins = []
+        for(i=0; i<num_bins; i++)
+        {
+            bins.push( {
+                min: i*bin_width + values[0],
+                max: (i+1)*bin_width + values[0],
+                num:0
+            } );
+        }
+
+        // O(n^2) please improve!!!!
+        for(v_index in values)
+        {
+            for(b_index in bins)
+            {
+                var value = values[v_index]
+                var min = bins[b_index].min
+                var max = bins[b_index].max
+                console.log(value)
+                console.log(min)
+                console.log(max)
+                if(value >= min && value <= max) {
+                    bins[b_index].num++;
+                    console.log('yes');
+                    break;
+                }
+            }
+        }
+        
+        console.log("bin width")
+        console.log(bin_width)
+        console.log("num bins")
+        console.log(num_bins)
+        console.log("bins")
+        console.log(bins)
+
+        histogram_data = [];
+        i=0
+        for(b_index in bins)
+        {
+            histogram_data.push({x:i, y:bins[b_index].num});
+            i++;
+        }
+        return histogram_data;
+    };
     return {get:get,
         get_detail_desc:get_detail_desc,
-    get_symbolic_desc:get_symbolic_desc};
+    get_symbolic_desc:get_symbolic_desc,
+    get_histogram_data:get_histogram_data};
 });
