@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html ng-app="input_list">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"> </script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 </head>
 
 <body>
+    <div class="container">
     <!-- Put title here -->
     <!-- Put scrolling options
         to choose calculation type
@@ -26,10 +29,11 @@
                 ng-pattern="/^\d+$/"
                 placeholder="Enter a value!" />
 
-        <input  ng-disabled="input_list.$invalid"
+        <input  ng-disabled="input_list.$invalid" class="btn btn-default"
                 type="submit" value="Calculate one-variable statistics" />
         {{inctrl.stats}}
     </form>
+    </div>
 </body>
 </html>
 
