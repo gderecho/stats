@@ -2,6 +2,7 @@
 <html ng-app="input_list">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"> </script>
     <script 
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -11,9 +12,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css" />
+    <script type="text/javascript"> 
+        $(window).load(function(){$('#githubmodal').modal("show");});
+    </script>
 </head>
 
 <body>
+    
     <!-- Put title here -->
     <!-- Put scrolling options
         to choose calculation type
@@ -30,6 +35,33 @@
         </div>
 
     </nav>
+<!--<div class="modal fade hide modal-dialog modal-content" id="githubmodal">
+        <div class="modal-header modal-title">Info</div>
+        <div class="modal-body"><p>
+         </p>
+        </div>
+        <div class="modal-footer">
+            <button href="#" type="button" data-dismiss="modal" class="btn btn-default">Close</a>
+        </div>
+        </div>-->
+        <div class="modal fade" id="githubmodal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Info</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>This is currently one of gderecho's private
+        testing pages. It will be released under the
+        GNU GPL v3 when it's finished.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     <div class="container">
     <h1>One-variable Statistics Calculator</h1>
     <form 
