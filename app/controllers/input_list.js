@@ -12,7 +12,8 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
     this.check_if_number = function(text) {
         return this.NUM_PATTERN.test(text)
     };
-    this.histogram_data = [];
+    this.histogram_points = [];
+    this.histogram_bins = [];
     /* if there is no last blank input
      * field, add a new one */
     this.check_if_add = function(input) {
@@ -65,8 +66,8 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
                 this.numbers.push(Number(text));
         }
         this.stats=get_ovar_stats.get(this.numbers);
-        this.histogram_data=(get_ovar_stats.get_histogram_data(this.numbers));
-        console.log(this.histogram_data);
+        this.histogram_bins=(get_ovar_stats.get_histogram_data(this.numbers));
+        this.histogram_points =(get_ovar_stats.get_points_from_bins(this.histogram_bins));
         return this.stats;
     };
     this.stats = {};
@@ -79,7 +80,8 @@ inlist_module.directive('hcHistogram', function() {
         replace:true,
         restrict:'C',
         scope:{
-            values:"=values"
+            values:"=values",
+            bins:"=bins",
         },
         controller:function($scope,$element,$attrs){
             console.log($scope)
@@ -89,8 +91,10 @@ inlist_module.directive('hcHistogram', function() {
             if(scope.values.length < 1)
                 return;
             var chart = new Highcharts.Chart({
-                chart: {type: 'column',renderTo: 'hist'},
-                series: [{data:scope.values}],
+                chart: {type: 'column',
+                    renderTo: 'hist'},
+                title:{text:'Histogram of Values'},
+                series: [{name:'Input Values',data:scope.values}],
                 plotOptions: {
                     column:{
                         shadow:false,
@@ -100,6 +104,34 @@ inlist_module.directive('hcHistogram', function() {
                         borderColor:'#666',
                         borderWidth:.4,
                     }
+                },
+                xAxis: {
+                    labels:{
+                        formatter: function() {
+                            main = scope.bins[this.value].min.
+                                toPrecision(5).toString()
+                                    + ', '
+                                    + scope.bins[this.value].max.
+                                toPrecision(5).toString()
+                            if(this.value == 0)
+                                return '[' + main + ']';
+                            return '(' + main + ']';
+                        }
+                    }
+                },
+                yAxis: {
+                    allowDecimals:false,
+                    title:{text:'Frequency'},
+                },
+                tooltip: {
+                    formatter: function()
+                    {
+                        return 'Frequency: ' + this.y.toString() 
+                            + '<br />'  + 'Range: '
+                            + scope.bins[this.x].min.toPrecision(5).toString()
+                            + " to " + scope.bins[this.x].max.toPrecision(5).toString();
+                    },
+                    borderWidth:2
                 }
             });
             scope.$watch("values", function(n) {

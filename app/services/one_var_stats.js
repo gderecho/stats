@@ -59,7 +59,7 @@ mod.factory('get_ovar_stats', function() {
 
         //var bin_width = 2 * iqr * Math.pow((values.length),-1/3);
         //var num_bins = Math.ceil((values[values.length-1]-values[0])/bin_width);
-        var num_bins = Math.ceil(Math.sqrt(values.length))
+        var num_bins = Math.ceil(Math.log(values.length)/Math.log(2) + 1)
         var bin_width = (values[values.length-1]-values[0])/num_bins
         // there are limits
         if(num_bins > 100)
@@ -104,6 +104,17 @@ mod.factory('get_ovar_stats', function() {
         console.log("bins")
         console.log(bins)
 
+        /*histogram_data = [];
+        i=0
+        for(b_index in bins)
+        {
+            histogram_data.push({x:i, y:bins[b_index].num});
+            i++;
+        }
+        return histogram_data;*/
+        return bins;
+    };
+    var get_points_from_bins = function (bins) {
         histogram_data = [];
         i=0
         for(b_index in bins)
@@ -116,5 +127,6 @@ mod.factory('get_ovar_stats', function() {
     return {get:get,
         get_detail_desc:get_detail_desc,
     get_symbolic_desc:get_symbolic_desc,
-    get_histogram_data:get_histogram_data};
+    get_histogram_data:get_histogram_data,
+    get_points_from_bins:get_points_from_bins};
 });
