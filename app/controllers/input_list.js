@@ -92,7 +92,9 @@ inlist_module.directive('hcHistogram', function() {
                 return;
             var chart = new Highcharts.Chart({
                 chart: {type: 'column',
-                    renderTo: 'hist'},
+                    renderTo: 'hist',
+                    spacingRight:40,
+                    spacingLeft:40},
                 title:{text:'Histogram of Values'},
                 series: [{name:'Input Values',data:scope.values}],
                 plotOptions: {

@@ -8,6 +8,7 @@
     <script src="app/js/highcharts-custom.js"></script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css" />
 </head>
@@ -36,15 +37,21 @@
             name="input_list"
             ng-submit="inctrl.get_stats()"
             novalidate>
-        <div class="form-group">
-            <label> Current Values </label>
+        <row><ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a>Manual Input</a></li>
+            <li role="presentation"><a>Bulk Input</a></li>
+            <li role="presentation"><a>Other</a></li>
+        </ul> </row>
+        <div class="tab-content">
+            <div class="form-group">
+                <label> Current Values </label>
 
-            <div class="row">
-            <div class="col-sm-2" ng-repeat="input in inctrl.inputs">
-                <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
-                ng-pattern="inctrl.NUM_PATTERN"
-                class="form-control">
-            </div>
+                <div class="row">
+                <div class="col-sm-2" ng-repeat="input in inctrl.inputs">
+                    <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
+                    ng-pattern="inctrl.NUM_PATTERN"
+                    class="form-control">
+                </div>
             </div>
         </div>
 
@@ -58,6 +65,7 @@
                 ng-pattern="inctrl.NUM_PATTERN"
                 placeholder="Enter a value!"
                class="form-control" style="width:auto" />
+        </div>
         </div>
 
         <input  ng-disabled="input_list.$invalid" class="btn btn-primary"
