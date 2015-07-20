@@ -131,19 +131,23 @@ mod.factory('get_ovar_stats', function() {
         values.sort(function(a,b) {return a-b;});
         fsummary = fn_summary(values);
         // check for outliers
-        index = values[values.length-1];
+        index = values.length-1;
         outliers=[]
-        while(fsummary.max > fsummary.median+1.5*(q3-q1))
+        while(fsummary.max > fsummary.q3+1.5*(q3-q1))
         {
             index--;
-            fsummary.max=values[index]
-            outliers.push
+            outliers.push([0,fsummary.max]);
+            fsummary.max=values[index];
         }
         return [{data:[[fsummary.min,
                 fsummary.q1,
                 fsummary.median,
                 fsummary.q3,
-                fsummary.max]]}]
+                fsummary.max]],
+                name:'Values within range'},
+                {data:outliers,
+                    type:'scatter',
+                    name:'Outliers'}];
     };
     return {get:get,
         get_detail_desc:get_detail_desc,

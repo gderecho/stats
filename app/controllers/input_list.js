@@ -171,6 +171,7 @@ inlist_module.directive('hcBoxplot', function() {
                 plotOptions: {
                 },
                 xAxis: {
+                    categories:['Input values']
                 },
                 yAxis: {
                 },
