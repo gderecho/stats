@@ -61,6 +61,8 @@ mod.factory('get_ovar_stats', function() {
         //var num_bins = Math.ceil((values[values.length-1]-values[0])/bin_width);
         var num_bins = Math.ceil(Math.log(values.length)/Math.log(2) + 1)
         var bin_width = (values[values.length-1]-values[0])/num_bins
+        if (bin_width == 0)
+            return [{min:values[0],max:values[0],num:values.length}];
         // there are limits
         if(num_bins > 100)
         {
