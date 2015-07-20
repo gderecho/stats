@@ -64,7 +64,13 @@
                  class="form-control" style="width:auto" />
             </div>
         </tab>
-            <tab heading="Bulk Input"><a>Bulk Input</a></tab>
+        <tab heading="Bulk Input">
+        <div class="form-group">
+            <label>Enter values below:</label>
+            <div class="row"><textarea class="form-control" rows=8 ng-model="inctrl.inputs"> Hello! </textarea></div>
+            <input class="btn btn-default" value="Upload a file" readonly/>
+        </div>
+        </tab>
             <tab heading="Other"><a>Other</a></tab>
         </tabset>
 
@@ -80,7 +86,11 @@
             </tr>
         </table>
 
-        <div class="hc-histogram" ng-if="inctrl.numbers.length != 0" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
+        <div ng-if="inctrl.numbers.length != 0">
+            <div class="hc-histogram col-md-6" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
+            <div class="hc-boxplot col-md-6" 
+                series="inctrl.boxplot_series"></div>
+        </div>
     </form>
     </div>
 </body>

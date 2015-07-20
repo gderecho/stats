@@ -14,6 +14,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
     };
     this.histogram_points = [];
     this.histogram_bins = [];
+    this.boxplot_series = [];
     /* if there is no last blank input
      * field, add a new one */
     this.check_if_add = function(input) {
@@ -68,6 +69,8 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
         this.stats=get_ovar_stats.get(this.numbers);
         this.histogram_bins=(get_ovar_stats.get_histogram_data(this.numbers));
         this.histogram_points =(get_ovar_stats.get_points_from_bins(this.histogram_bins));
+        this.boxplot_series = (get_ovar_stats.get_boxplot_series(this.numbers));
+        console.log(this.boxplot_series);
         return this.stats;
     };
     this.stats = {};
@@ -139,6 +142,54 @@ inlist_module.directive('hcHistogram', function() {
             scope.$watch("values", function(n) {
                 chart.series[0].setData(n,true);
             },true);
+        }
+    };
+});
+
+inlist_module.directive('hcBoxplot', function() {
+    return {
+        replace:true,
+        restrict:'C',
+        scope:{
+            in_series:"=series",
+        },
+        controller:function($scope,$element,$attrs){
+            console.log($scope)
+        },
+        template:'<div id="box"></div>',
+        link: function(scope,element,attrs) {
+            if(scope.in_series.length < 1)
+                return;
+            var chart = new Highcharts.Chart({
+                chart: {type: 'boxplot',
+                    renderTo: 'box',
+                    spacingRight:40,
+                    spacingLeft:40,
+                    inverted:true},
+                title:{text:'Boxplot of Values'},
+                series:scope.in_series,
+                plotOptions: {
+                },
+                xAxis: {
+                },
+                yAxis: {
+                },
+                tooltip: {
+                    borderWidth:2
+                }
+            });
+            scope.$watch("in_series", function(in_series) {
+                while(chart.series.length > 0)
+                    chart.series[0].remove(true);
+                console.log(in_series)
+                for(i in in_series)
+                {
+                    chart.addSeries(in_series[i]);
+                    console.log("series added");
+                    console.log(in_series[i]);
+                }
+                console.log(chart.series);
+            });
         }
     };
 });
