@@ -40,7 +40,7 @@
             <label> Current Values </label>
 
             <div class="row">
-            <div class="col-sm-3" ng-repeat="input in inctrl.inputs">
+            <div class="col-sm-2" ng-repeat="input in inctrl.inputs">
                 <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
                 ng-pattern="inctrl.NUM_PATTERN"
                 class="form-control">
@@ -72,7 +72,7 @@
             </tr>
         </table>
 
-        <div class="hc-histogram" ng-if="inctrl.numbers.length != 0" values="inctrl.histogram_data"></div>
+        <div class="hc-histogram" ng-if="inctrl.numbers.length != 0" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
     </form>
     </div>
 </body>
