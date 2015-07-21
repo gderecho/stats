@@ -1,6 +1,6 @@
 var inlist_module = angular.module("input_list", ['one_var_stats','ui.bootstrap']);
 
-inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_stats) {
+inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_stats,$scope) {
     this.inputs = [];
     this.numbers=[];
     this.editing = [{id:1, text:""}];

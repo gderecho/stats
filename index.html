@@ -11,6 +11,18 @@
     <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css" />
+    <style>
+    .tab-content {
+        /*border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd; */
+        padding: 10px;
+    }
+    /*.tab-pane {
+        overflow-y: auto;
+        overflow-x: hidden;
+    } */
+    </style>
     <script src="app/js/ui-bootstrap-custom-tpls-0.13.0.min.js"></script>
 </head>
 
@@ -74,19 +86,25 @@
             <tab heading="Other"><a>Other</a></tab>
         </tabset>
 
-        <input  ng-disabled="input_list.$invalid" class="btn btn-primary"
-                type="submit" value="Calculate one-variable statistics" />
-
-        <table class="table">
-            <tr ng-repeat="(key,data) in inctrl.stats">
-                <td>{{inctrl.detail_desc[key]}}</td>
-                <!-- <td>{{key}}</td> -->
-                <td mathjax-bind="inctrl.symbolic_desc[key]"></td>
-                <td mathjax-bind="data"></td>
-            </tr>
-        </table>
+        <button  ng-disabled="input_list.$invalid" class="btn btn-primary"
+            type="submit" >Calculate one-variable statistics </button>
 
         <div ng-if="inctrl.numbers.length != 0">
+            <h2>Results</h2>
+            <table class="table table-hover">
+                <thead>
+                    <th>Description</th>
+                    <th>Symbol</th>
+                    <th>Value</th>
+                </thead>
+                <tr ng-repeat="(key,data) in inctrl.stats">
+                    <td>{{inctrl.detail_desc[key]}}</td>
+                    <!-- <td>{{key}}</td> -->
+                    <td mathjax-bind="inctrl.symbolic_desc[key]"></td>
+                    <td mathjax-bind="data"></td>
+                </tr>
+            </table>
+
             <div class="hc-histogram col-md-6" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
             <div class="hc-boxplot col-md-6" 
                 series="inctrl.boxplot_series"></div>
