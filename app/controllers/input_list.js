@@ -1,7 +1,8 @@
 var inlist_module = angular.module("input_list", ['one_var_stats','ui.bootstrap']);
 
-inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_stats) {
+inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout',function(get_ovar_stats,$timeout) {
     this.inputs = [];
+    this.bulk_in_area = "";
     this.numbers=[];
     this.editing = [{id:1, text:""}];
     this.curid = 1;
@@ -14,8 +15,17 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
     };
     this.histogram_points = [];
     this.histogram_bins = [];
+    this.boxplot_series = [];
+    this.bool_update_from_bulk = false;
+
+    this.bulk_changed = function()
+    {
+        this.bool_update_from_bulk = true;
+    }
+
     /* if there is no last blank input
-     * field, add a new one */
+     * field, add a new one. also add
+     * to bulk input */
     this.check_if_add = function(input) {
         index = this.editing.indexOf(input)
         console.log(input.text)
@@ -25,8 +35,40 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
         if(index == this.editing.length-1) {
             this.curid++;
             this.editing.push({id:this.curid, text:""})
-       }
+        }
     };
+
+    /* updates the bulk input area,
+     * populating it with values from
+     * the input array */
+    this.update_bulk_area = function() {
+        this.bulk_in_area = "";
+        for(index in this.inputs)
+        {
+            this.bulk_in_area = this.bulk_in_area + this.inputs[index].text + ',';
+        }
+        this.bool_update_from_bulk = false;
+    }
+
+    this.update_manual_from_bulk = function() {
+        if(!this.bool_update_from_bulk) 
+            return;
+        bulk_in_array = this.bulk_in_area.split(/,| /);
+        this.inputs = [];
+        this.curid = 0;
+        for(i=0; i<bulk_in_array.length; i++) {
+            cur_in = bulk_in_array[i];
+            console.log(cur_in);
+            if(cur_in == "")
+                continue;
+            if(this.NUM_PATTERN.test(cur_in)) {
+                this.curid++;
+                this.inputs.push({id:this.curid, text:cur_in});
+            }
+        }
+        this.bool_update_from_bulk = false;
+    }
+
 
     /* if, when unfocused, the element is blank
      * but not the last element, remove it.
@@ -57,8 +99,8 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
     this.texify= function(i) {
         return "$$" + i + "$$" 
     }
-
-    this.get_stats = function() {
+    this.set_stats = function() {
+        console.log(this.inputs)
         this.numbers=[];
         for (key in this.inputs) {
             text = this.inputs[key].text;
@@ -68,8 +110,18 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats',function(get_ovar_
         this.stats=get_ovar_stats.get(this.numbers);
         this.histogram_bins=(get_ovar_stats.get_histogram_data(this.numbers));
         this.histogram_points =(get_ovar_stats.get_points_from_bins(this.histogram_bins));
+        this.boxplot_series = (get_ovar_stats.get_boxplot_series(this.numbers));
+        console.log(this.boxplot_series);
         return this.stats;
+    }
+
+    this.get_stats = function() {
+        //console.log(this.inputs)
+         //       $timeout( function() {angular.element(document).find('man_input_tab').triggerHandler('click')},0)
+        this.update_manual_from_bulk();
+        return this.set_stats()
     };
+
     this.stats = {};
     this.symbolic_desc = get_ovar_stats.get_symbolic_desc();
     this.detail_desc=get_ovar_stats.get_detail_desc();
@@ -97,6 +149,7 @@ inlist_module.directive('hcHistogram', function() {
                     spacingLeft:40},
                 title:{text:'Histogram of Values'},
                 series: [{name:'Input Values',data:scope.values}],
+                credits:{enabled:false},
                 plotOptions: {
                     column:{
                         shadow:false,
@@ -143,6 +196,58 @@ inlist_module.directive('hcHistogram', function() {
     };
 });
 
+inlist_module.directive('hcBoxplot', function() {
+    return {
+        replace:true,
+        restrict:'C',
+        scope:{
+            in_series:"=series",
+        },
+        controller:function($scope,$element,$attrs){
+            console.log($scope)
+        },
+        template:'<div id="box"></div>',
+        link: function(scope,element,attrs) {
+            if(scope.in_series.length < 1)
+                return;
+            var chart = new Highcharts.Chart({
+                chart: {type: 'boxplot',
+                    renderTo: 'box',
+                    spacingRight:40,
+                    spacingLeft:40,
+                    inverted:true},
+                title:{text:'Boxplot of Values'},
+                credits:{
+                    enabled: false
+                },
+                series:scope.in_series,
+                plotOptions: {
+                },
+                xAxis: {
+                    categories:['Input values']
+                },
+                yAxis: {
+                },
+                tooltip: {
+                    borderWidth:2
+                }
+            });
+            scope.$watch("in_series", function(in_series) {
+                while(chart.series.length > 0)
+                    chart.series[0].remove(true);
+                console.log(in_series)
+                for(i in in_series)
+                {
+                    chart.addSeries(in_series[i]);
+                    console.log("series added");
+                    console.log(in_series[i]);
+                }
+                console.log(chart.series);
+            });
+        }
+    };
+});
+
 /* The following directive was taken from
  * Ben Alpert's answer at stackoverflow:
  * http://stackoverflow.com/questions/16087146/   \
@@ -162,10 +267,10 @@ inlist_module.directive("mathjaxBind", function() {
                 $scope.$watch($attrs.mathjaxBind, function(texExpression) {
                     var texScript = angular.element("<script type='math/tex'>")
                         .html(texExpression ? texExpression :  "");
-                $element.html("");
-                $element.append(texScript);
-                                                                                                                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $element[0]]);
-                                                                                                                                    });
-                                                            }]
-                };
+                    $element.html("");
+                    $element.append(texScript);
+                    MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $element[0]]);
+                });
+            }]
+    };
 });

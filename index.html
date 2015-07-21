@@ -11,6 +11,18 @@
     <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css" />
+    <style>
+    .tab-content {
+        /*border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd; */
+        padding: 10px;
+    }
+    /*.tab-pane {
+        overflow-y: auto;
+        overflow-x: hidden;
+    } */
+    </style>
     <script src="app/js/ui-bootstrap-custom-tpls-0.13.0.min.js"></script>
 </head>
 
@@ -39,15 +51,15 @@
             ng-submit="inctrl.get_stats()"
             novalidate>
         <tabset>
-        <tab heading="Manual Input">
+        <tab heading="Manual Input" ng-click="inctrl.update_manual_from_bulk()" id="man_input_tab">
             <div class="form-group">
-                <label> Current Values </label>
+                <label ng-if="inctrl.inputs.length!=0"> Current Values </label>
 
                 <div class="row">
-                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs">
+                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs" ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}"> <!-- todo: fix highlighting when elements removed-->
                         <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
-                                                     ng-pattern="inctrl.NUM_PATTERN"
-                                                     class="form-control">
+                        ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
+                            class="form-control" />
                     </div>
                 </div>
             </div>
@@ -60,27 +72,43 @@
                  ng-blur="inctrl.check_if_delete_editing(input)"
                  ng-change="inctrl.check_if_add(input)"
                  ng-pattern="inctrl.NUM_PATTERN"
-                 placeholder="Enter a value!"
+                 placeholder="{{input.id==1 || (inctrl.inputs.length==0 && inctrl.editing.length==1) ? 'Enter a value!' : 'Enter another value!'}}"
                  class="form-control" style="width:auto" />
             </div>
         </tab>
-            <tab heading="Bulk Input"><a>Bulk Input</a></tab>
-            <tab heading="Other"><a>Other</a></tab>
+        <tab heading="Bulk Input" ng-click="inctrl.update_bulk_area()">
+        <div class="form-group">
+            <label>Enter values below:</label>
+            <div class="row"><textarea class="form-control" ng-change="inctrl.bulk_changed()" rows=8 ng-model="inctrl.bulk_in_area"> Hello! </textarea></div>
+            <!--<input class="btn btn-default" value="Upload a file" readonly/>-->
+        </div>
+        </tab>
+        <!--<tab heading="Other"><a>Other</a></tab>-->
         </tabset>
 
-        <input  ng-disabled="input_list.$invalid" class="btn btn-primary"
-                type="submit" value="Calculate one-variable statistics" />
+        <button  ng-disabled="input_list.$invalid" class="btn btn-primary"
+            type="submit" >Calculate one-variable statistics </button>
 
-        <table class="table">
-            <tr ng-repeat="(key,data) in inctrl.stats">
-                <td>{{inctrl.detail_desc[key]}}</td>
-                <!-- <td>{{key}}</td> -->
-                <td mathjax-bind="inctrl.symbolic_desc[key]"></td>
-                <td mathjax-bind="data"></td>
-            </tr>
-        </table>
+        <div ng-if="inctrl.numbers.length != 0">
+            <h2>Results</h2>
+            <table class="table table-hover">
+                <thead>
+                    <th>Description</th>
+                    <th>Symbol</th>
+                    <th>Value</th>
+                </thead>
+                <tr ng-repeat="(key,data) in inctrl.stats">
+                    <td>{{inctrl.detail_desc[key]}}</td>
+                    <!-- <td>{{key}}</td> -->
+                    <td mathjax-bind="inctrl.symbolic_desc[key]"></td>
+                    <td mathjax-bind="data"></td>
+                </tr>
+            </table>
 
-        <div class="hc-histogram" ng-if="inctrl.numbers.length != 0" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
+            <div class="hc-histogram col-md-6" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
+            <div class="hc-boxplot col-md-6" 
+                series="inctrl.boxplot_series"></div>
+        </div>
     </form>
     </div>
 </body>

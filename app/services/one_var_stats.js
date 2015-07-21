@@ -39,13 +39,7 @@ mod.factory('get_ovar_stats', function() {
         s2:"s^2_{n-1}",
         s:"s_{n-1}",
     }};
-    var get_histogram_data = function(unsorted_values) {
-        if(unsorted_values.length == 0)
-            return;
-        // Freedman-Diaconis rule
-        values = unsorted_values.slice(0);
-        values.sort(function(a,b) {return a-b;});
-        console.log(values);
+    function fn_summary(sorted_values) {
         var q1_index = (values.length-1)/4;
         var q1 = (values[Math.floor(q1_index)]
             + values[Math.ceil(q1_index)])/2;
@@ -56,6 +50,26 @@ mod.factory('get_ovar_stats', function() {
         var median_index = (values.length-1)/2;
         var median = (values[Math.floor(median_index)]
             + values[Math.ceil(median_index)])/2;
+        return {
+            min:values[0],
+            q1:q1,
+            median:median,
+            q3:q3,
+            max:values[values.length-1]
+        }
+
+    }
+    var get_histogram_data = function(unsorted_values) {
+        if(unsorted_values.length == 0)
+            return;
+        // Freedman-Diaconis rule
+        values = unsorted_values.slice(0);
+        values.sort(function(a,b) {return a-b;});
+
+        summary = fn_summary(values);
+        median = summary.median;
+        q1 = summary.q1;
+        q3 = summary.q3;
 
         //var bin_width = 2 * iqr * Math.pow((values.length),-1/3);
         //var num_bins = Math.ceil((values[values.length-1]-values[0])/bin_width);
@@ -98,22 +112,7 @@ mod.factory('get_ovar_stats', function() {
                 }
             }
         }
-        
-        console.log("bin width")
-        console.log(bin_width)
-        console.log("num bins")
-        console.log(num_bins)
-        console.log("bins")
-        console.log(bins)
 
-        /*histogram_data = [];
-        i=0
-        for(b_index in bins)
-        {
-            histogram_data.push({x:i, y:bins[b_index].num});
-            i++;
-        }
-        return histogram_data;*/
         return bins;
     };
     var get_points_from_bins = function (bins) {
@@ -126,9 +125,49 @@ mod.factory('get_ovar_stats', function() {
         }
         return histogram_data;
     };
+    var get_boxplot_series = function(unsorted_values) {
+        series = []
+        values = unsorted_values.slice(0);
+        values.sort(function(a,b) {return a-b;});
+        fsummary = fn_summary(values);
+        // check for outliers
+        outliers=[]
+        if( values.length > 2)
+        {
+            index = values.length-1;
+            while(fsummary.max > fsummary.q3+1.5*(q3-q1))
+            {
+                index--;
+                outliers.push([0,fsummary.max]);
+                fsummary.max=values[index];
+            }
+            index=0;
+            while(fsummary.min < fsummary.q1-1.5*(q3-q1))
+            {
+                index++;
+                outliers.push([0,fsummary.min]); 
+                fsummary.min=values[index];
+            }
+        }
+
+        return [{data:[[fsummary.min,
+                fsummary.q1,
+                fsummary.median,
+                fsummary.q3,
+                fsummary.max]],
+                color:Highcharts.getOptions().colors[0],
+                name:'Values within range'},
+                {data:outliers,
+                    type:'scatter',
+                    name:'Outliers',
+                    color:Highcharts.getOptions().colors[0],
+                    marker:{lineColor:Highcharts.getOptions().colors[0],lineWidth:1,fillColor:'white',symbol:'circle',},
+                    tooltip:{pointFormatter:function() {return "<b>Outlier</b><br />Value: " + this.y.toString()}}}];
+    };
     return {get:get,
         get_detail_desc:get_detail_desc,
     get_symbolic_desc:get_symbolic_desc,
     get_histogram_data:get_histogram_data,
+    get_boxplot_series:get_boxplot_series,
     get_points_from_bins:get_points_from_bins};
 });
