@@ -2,13 +2,14 @@
 <html ng-app="input_list">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"> </script>
     <script 
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="app/js/highcharts-custom.js"></script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css" />
     <style>
@@ -24,9 +25,13 @@
     } */
     </style>
     <script src="app/js/ui-bootstrap-custom-tpls-0.13.0.min.js"></script>
+    <script type="text/javascript"> 
+        $(window).load(function(){$('#githubmodal').modal("show");});
+    </script>
 </head>
 
 <body>
+      <div class="modal fade" id="githubmodal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Info</h4></div><div class="modal-body"><p>This is a testing page. It is licensed under the GNU GPL v3, so please contact gderecho at github if you would like a copy of the source.</p> </div> <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div></div></div>
     <!-- Put title here -->
     <!-- Put scrolling options
         to choose calculation type
