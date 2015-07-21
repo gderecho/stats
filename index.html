@@ -51,12 +51,12 @@
             ng-submit="inctrl.get_stats()"
             novalidate>
         <tabset>
-        <tab heading="Manual Input">
+        <tab heading="Manual Input" ng-click="inctrl.update_manual_from_bulk()" id="man_input_tab">
             <div class="form-group">
-                <label> Current Values </label>
+                <label ng-if="inctrl.inputs.length!=0"> Current Values </label>
 
                 <div class="row">
-                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs" ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}">
+                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs" ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}"> <!-- todo: fix highlighting when elements removed-->
                         <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
                         ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
                             class="form-control" />
@@ -72,18 +72,18 @@
                  ng-blur="inctrl.check_if_delete_editing(input)"
                  ng-change="inctrl.check_if_add(input)"
                  ng-pattern="inctrl.NUM_PATTERN"
-                 placeholder="Enter a value!"
+                 placeholder="{{input.id==1 || (inctrl.inputs.length==0 && inctrl.editing.length==1) ? 'Enter a value!' : 'Enter another value!'}}"
                  class="form-control" style="width:auto" />
             </div>
         </tab>
-        <tab heading="Bulk Input">
+        <tab heading="Bulk Input" ng-click="inctrl.update_bulk_area()">
         <div class="form-group">
             <label>Enter values below:</label>
-            <div class="row"><textarea class="form-control" rows=8 ng-model="inctrl.inputs"> Hello! </textarea></div>
-            <input class="btn btn-default" value="Upload a file" readonly/>
+            <div class="row"><textarea class="form-control" ng-change="inctrl.bulk_changed()" rows=8 ng-model="inctrl.bulk_in_area"> Hello! </textarea></div>
+            <!--<input class="btn btn-default" value="Upload a file" readonly/>-->
         </div>
         </tab>
-            <tab heading="Other"><a>Other</a></tab>
+        <!--<tab heading="Other"><a>Other</a></tab>-->
         </tabset>
 
         <button  ng-disabled="input_list.$invalid" class="btn btn-primary"
