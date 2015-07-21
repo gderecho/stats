@@ -9,16 +9,17 @@
     <script src="app/js/highcharts-custom.js"></script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css" />
+    <script src="app/js/ui-bootstrap-custom-tpls-0.13.0.min.js"></script>
     <script type="text/javascript"> 
         $(window).load(function(){$('#githubmodal').modal("show");});
     </script>
 </head>
 
 <body>
-    
+      <div class="modal fade" id="githubmodal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Info</h4></div><div class="modal-body"><p>This is a testing page. It is licensed under the GNU GPL v3, so please contact gderecho at github if you would like a copy of the source.</p> </div> <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div></div></div>
     <!-- Put title here -->
     <!-- Put scrolling options
         to choose calculation type
@@ -35,33 +36,6 @@
         </div>
 
     </nav>
-<!--<div class="modal fade hide modal-dialog modal-content" id="githubmodal">
-        <div class="modal-header modal-title">Info</div>
-        <div class="modal-body"><p>
-         </p>
-        </div>
-        <div class="modal-footer">
-            <button href="#" type="button" data-dismiss="modal" class="btn btn-default">Close</a>
-        </div>
-        </div>-->
-        <div class="modal fade" id="githubmodal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Info</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>This is currently one of gderecho's private
-        testing pages. It will be released under the
-        GNU GPL v3 when it's finished.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
     <div class="container">
     <h1>One-variable Statistics Calculator</h1>
     <form 
@@ -69,36 +43,35 @@
             name="input_list"
             ng-submit="inctrl.get_stats()"
             novalidate>
-        <row><ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a>Manual Input</a></li>
-            <li role="presentation"><a>Bulk Input</a></li>
-            <li role="presentation"><a>Other</a></li>
-        </ul> </row>
-        <div class="tab-content">
+        <tabset>
+        <tab heading="Manual Input">
             <div class="form-group">
                 <label> Current Values </label>
 
                 <div class="row">
-                <div class="col-sm-2" ng-repeat="input in inctrl.inputs">
-                    <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
-                    ng-pattern="inctrl.NUM_PATTERN"
-                    class="form-control">
+                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs">
+                        <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
+                                                     ng-pattern="inctrl.NUM_PATTERN"
+                                                     class="form-control">
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label>Please enter your values below:</label>
-            <input
-                ng-repeat="input in inctrl.editing"
-                ng-model="input.text"
-                ng-blur="inctrl.check_if_delete_editing(input)"
-                ng-change="inctrl.check_if_add(input)"
-                ng-pattern="inctrl.NUM_PATTERN"
-                placeholder="Enter a value!"
-               class="form-control" style="width:auto" />
-        </div>
-        </div>
+            <div class="form-group">
+                <label>Please enter your values below:</label>
+                <input
+                 ng-repeat="input in inctrl.editing"
+                 ng-model="input.text"
+                 ng-blur="inctrl.check_if_delete_editing(input)"
+                 ng-change="inctrl.check_if_add(input)"
+                 ng-pattern="inctrl.NUM_PATTERN"
+                 placeholder="Enter a value!"
+                 class="form-control" style="width:auto" />
+            </div>
+        </tab>
+            <tab heading="Bulk Input"><a>Bulk Input</a></tab>
+            <tab heading="Other"><a>Other</a></tab>
+        </tabset>
 
         <input  ng-disabled="input_list.$invalid" class="btn btn-primary"
                 type="submit" value="Calculate one-variable statistics" />
