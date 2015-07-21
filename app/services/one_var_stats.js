@@ -131,23 +131,38 @@ mod.factory('get_ovar_stats', function() {
         values.sort(function(a,b) {return a-b;});
         fsummary = fn_summary(values);
         // check for outliers
-        index = values.length-1;
         outliers=[]
-        while(fsummary.max > fsummary.q3+1.5*(q3-q1))
+        if( values.length > 2)
         {
-            index--;
-            outliers.push([0,fsummary.max]);
-            fsummary.max=values[index];
+            index = values.length-1;
+            while(fsummary.max > fsummary.q3+1.5*(q3-q1))
+            {
+                index--;
+                outliers.push([0,fsummary.max]);
+                fsummary.max=values[index];
+            }
+            index=0;
+            while(fsummary.min < fsummary.q1-1.5*(q3-q1))
+            {
+                index++;
+                outliers.push([0,fsummary.min]); 
+                fsummary.min=values[index];
+            }
         }
+
         return [{data:[[fsummary.min,
                 fsummary.q1,
                 fsummary.median,
                 fsummary.q3,
                 fsummary.max]],
+                color:Highcharts.getOptions().colors[0],
                 name:'Values within range'},
                 {data:outliers,
                     type:'scatter',
-                    name:'Outliers'}];
+                    name:'Outliers',
+                    color:Highcharts.getOptions().colors[0],
+                    marker:{lineColor:Highcharts.getOptions().colors[0],lineWidth:1,fillColor:'white',symbol:'circle',},
+                    tooltip:{pointFormatter:function() {return "<b>Outlier</b><br />Value: " + this.y.toString()}}}];
     };
     return {get:get,
         get_detail_desc:get_detail_desc,

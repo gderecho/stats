@@ -100,6 +100,7 @@ inlist_module.directive('hcHistogram', function() {
                     spacingLeft:40},
                 title:{text:'Histogram of Values'},
                 series: [{name:'Input Values',data:scope.values}],
+                credits:{enabled:false},
                 plotOptions: {
                     column:{
                         shadow:false,
@@ -167,6 +168,9 @@ inlist_module.directive('hcBoxplot', function() {
                     spacingLeft:40,
                     inverted:true},
                 title:{text:'Boxplot of Values'},
+                credits:{
+                    enabled: false
+                },
                 series:scope.in_series,
                 plotOptions: {
                 },
@@ -214,10 +218,10 @@ inlist_module.directive("mathjaxBind", function() {
                 $scope.$watch($attrs.mathjaxBind, function(texExpression) {
                     var texScript = angular.element("<script type='math/tex'>")
                         .html(texExpression ? texExpression :  "");
-                $element.html("");
-                $element.append(texScript);
-                                                                                                                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $element[0]]);
-                                                                                                                                    });
-                                                            }]
-                };
+                    $element.html("");
+                    $element.append(texScript);
+                    MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $element[0]]);
+                });
+            }]
+    };
 });
