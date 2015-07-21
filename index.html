@@ -56,10 +56,10 @@
                 <label> Current Values </label>
 
                 <div class="row">
-                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs">
+                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs" ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}">
                         <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
-                                                     ng-pattern="inctrl.NUM_PATTERN"
-                                                     class="form-control">
+                        ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
+                            class="form-control" />
                     </div>
                 </div>
             </div>
