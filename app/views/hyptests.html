@@ -1,0 +1,21 @@
+<div class="container">
+    <div ng-controller="choose_test_ctrl as ctrl">
+        <h1>
+            Statistical Hypothesis Test
+        </h1>
+        <label>Select a type</label>
+        <select class="form-control">
+            <option ng-repeat="text in ctrl.tests">{{text}}</option>
+        </select>
+        <p>Null hypothesis</p>
+        <p>Alternative hypothesis</p>
+        <p>Number of successes/observations sample1,2</p>
+        <p>Significance Level</p>
+        <p>Results:</p>
+        <p>Assumptions and conditions</p>
+        <p>test statistic, p-value</p>
+        <p>recommend whether to reject H_0</p>
+        <p>show a normal curve</p>
+
+    </div>
+</div>
