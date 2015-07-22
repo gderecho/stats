@@ -10,23 +10,15 @@
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
     <script src="app/controllers/main_controller.js"></script>
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css" />
     <style>
     .tab-content {
-        /*border-left: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-        border-bottom: 1px solid #ddd; */
         padding: 10px;
     }
-    /*.tab-pane {
-        overflow-y: auto;
-        overflow-x: hidden;
-    } */
 
     /* Sticky footer styles
-       -------------------------------------------------- */
+     * sticky footer css taken from 
+     * http://getbootstrap.com/examples/sticky-footer-navbar/sticky-footer-navbar.css */
     html {
         position: relative;
         min-height: 100%;
@@ -45,8 +37,6 @@
         /*background-color: #121212;*/
         padding: 15px;
     }
-    /* sticky footer css taken from 
-     * http://getbootstrap.com/examples/sticky-footer-navbar/sticky-footer-navbar.css */
     .footer > .container {
         color: #444444;
     }
@@ -71,9 +61,10 @@
         </ul>
         </div>
     </nav>
+
     <div ng-view></div>
 
-        <footer class="footer">
+    <footer class="footer">
         <div class="container">
             <p class="text-center">Copyright (C) 2015 gderecho</p>
             <p class="text-center">The code in this app is <a href="http://www.gnu.org/philosophy/free-sw.en.html">free software</a> licensed under the <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>. </p>
