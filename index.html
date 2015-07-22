@@ -23,6 +23,33 @@
         overflow-y: auto;
         overflow-x: hidden;
     } */
+
+    /* Sticky footer styles
+       -------------------------------------------------- */
+    html {
+        position: relative;
+        min-height: 100%;
+    }
+    body {
+        /* Margin bottom by footer height */
+        margin-bottom: 90px;
+    }
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        border-top: 1px solid #ddd;
+        /* Set the fixed height of the footer here */
+        height: 90px;
+        /*background-color: #121212;*/
+        padding: 15px;
+    }
+    /* sticky footer css taken from 
+     * http://getbootstrap.com/examples/sticky-footer-navbar/sticky-footer-navbar.css */
+    .footer > .container {
+        color: #444444;
+    }
+
     </style>
     <script src="app/js/ui-bootstrap-custom-tpls-0.13.0.min.js"></script>
     <script type="text/javascript"> 
@@ -116,6 +143,12 @@
         </div>
     </form>
     </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-center">Copyright (C) 2015 gderecho</p>
+            <p class="text-center">The code in this app is <a href="http://www.gnu.org/philosophy/free-sw.en.html">free software</a> licensed under the <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>. </p>
+        </div>
+    </footer>
 </body>
 </html>
 
