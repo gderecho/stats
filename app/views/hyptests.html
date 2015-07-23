@@ -4,18 +4,89 @@
             Statistical Hypothesis Test
         </h1>
         <label>Select a type</label>
-        <select class="form-control">
-            <option ng-repeat="text in ctrl.tests">{{text}}</option>
-        </select>
-        <p>Null hypothesis</p>
-        <p>Alternative hypothesis</p>
-        <p>Number of successes/observations sample1,2</p>
-        <p>Significance Level</p>
-        <p>Results:</p>
+        <div class="form-group">
+            <select class="form-control">
+                <option ng-repeat="text in ctrl.tests">{{text}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div ng-controller="tpzt_controller as tpzt_ctrl">
+    <div class="container">
+        <form name="form_twopropz" ng-submit="console.log('hello');tpzt_ctrl.show()">
+            <h3>Hypotheses</h3>
+            <h4>Choose a null hypothesis and corresponding alternative hypothesis</h4>
+            <label>Null hypothesis</label>
+        <div class="form-group">
+                <div class="input-group col-md-3" ng-class="{'has-error':form_twopropz.input_nullhyp_diff.$invalid}" >
+                            
+                    <span class="input-group-addon">\(H_0: p_1-p_2=\)</span>
+                    <input type=number class="form-control" 
+                            placeholder="Value" 
+                            ng-init="tpzt_ctrl.nulldiff=0"
+                            ng-model="tpzt_ctrl.nulldiff"
+                            ng-required="true"
+                            name="input_nullhyp_diff"
+                            step=".01"
+                             />
+                </div>
+        </div>
+        <div class="form-group">
+            <label>Alternative hypothesis</label>
+                <div class="input-group col-md-3" ng-class="{'has-error':form_twopropz.input_nullhyp_diff.$invalid}">
+                    <span class="input-group-addon">\(H_A: p_1-p_2\)</span>
+                    <select class="form-control"> 
+                        <option>\(&ne;\)</option>
+                        <option>\(&gt;\)</option>
+                        <option>\(&lt;\)</option>
+                    </select>
+                    <span class="input-group-addon">{{tpzt_ctrl.nulldiff}}</span>
+                </div>
+        </div>
+        <div class="form-group">
+            <h3>Observations</h3>
+            <label>Sample One</label>
+            <div class="input-group col-md-6">
+                <input class="form-control" type="number" ng-model="tpzt_ctrl.x1"/>
+                <span class="input-group-addon">successes of</span>
+                <input class="form-control" type="number" ng-model="tpzt_ctrl.n1"/>
+                <span class="input-group-addon">total observations</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Sample Two</label>
+            <div class="input-group col-md-6">
+                <input class="form-control" type="number" ng-model="tpzt_ctrl.x2"/>
+                <span class="input-group-addon">successes of</span>
+                <input class="form-control" type="number" ng-model="tpzt_ctrl.n2"/>
+                <span class="input-group-addon">total observations</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Significance Level</label>
+            <div class="input-group col-md-3">
+                <span class="input-group-addon">\(\alpha=\)</span>
+                <input class="form-control" 
+                       type="number"
+                       value="0.05"
+                       step=".01" />
+            </div>
+        </div>
+        <!--<p>Results:</p>
+        <p>Test title (Two-sample z-test for proportions
+        with continuity correction)</p>
         <p>Assumptions and conditions</p>
         <p>test statistic, p-value</p>
         <p>recommend whether to reject H_0</p>
-        <p>show a normal curve</p>
+        <p>show a normal curve</p> -->
+        <button class="btn btn-primary" ng-click="tpzt_ctrl.show()">Run Two-Proportion z-Test</button>
+        </form>
+        
+        
 
+    </div>
+    <div class="container" ng-if="tpzt_ctrl.bool_show">
+        <div gd-tpzt-results> </div>
     </div>
 </div>
