@@ -1,7 +1,8 @@
 #Stats
 
 A simple statistics calculator. Currently, it is a static webapp
-that calculates one-variable statistics.
+that calculates one-variable statistics and does two-proportion
+z-tests.
 
 Features include:
  * Mathjax rendering
