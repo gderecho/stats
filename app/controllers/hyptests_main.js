@@ -122,6 +122,13 @@ hyptests.directive('gdTpztResults', function() {
                 title: {
                     text:'Hello',
                 },
+                plotOptions:{
+                    series:{
+                        dataLabels: {
+                            useHTML:true,
+                        }
+                    },
+                },
                 series: [{
                     type:'spline',
                         /* precalculated 
@@ -137,12 +144,71 @@ hyptests.directive('gdTpztResults', function() {
                     },
                     enableMouseTracking:false,
                     name:'Gaussian curve',
+                    color:'#2780e3',
+                },      {
+                    type:'areaspline',
+                    data:normal_dist_values.filter(
+                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) == (tpzt_ctrl.zscore<0?-1:1)) }),
+                    fillColor:'rgba(255,0,0,.2)',
+                    lineWidth:0,
+                    marker: {
+                        enabled:false,
+                        states: {
+                            hover: {
+                                enabled:false,
+                            },
+                        },
+                    },
+                    enableMouseTracking:false,
+                    showInLegend:false,
+                },
+                {
+                    type:'areaspline',
+                    data:normal_dist_values.filter(
+                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) != (tpzt_ctrl.zscore<0?-1:1)) }),
+                    fillColor:'rgba(255,165,0,.2)',
+                    lineWidth:0,
+                    marker: {
+                        enabled:false,
+                        states: {
+                            hover: {
+                                enabled:false,
+                            },
+                        },
+                    },
+                    enableMouseTracking:false,
+                    showInLegend:false,
                 },
                         {
                     type:'scatter',
                     data:[{x:zscore,y:pdf_norm(zscore)},],
+                    color:'#000000',
+                    tooltip:{
+                        //pointFormat:'<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.x}</b><br/>',
+                        pointFormatter: function() {
+                            return '<span style="color:' 
+                                + this.color
+                                + '">\u25CF</span> '
+                                + 'p\u0302<sub>1</sub>-p\u0302<sub>2</sub>'
+                                + '<br /> <b>'
+                                + 'Value:</b> ' 
+                                + tpzt_ctrl.diff.toString()
+                                + '<br /> <b>Test (z) statistic:</b> '
+                                + this.x
+                                + '<br/>'
+                        },
+                        headerFormat:'',
+                        useHTML:true,
+                    },
+                    name:'p\u0302<sub>1</sub>-p\u0302<sub>2</sub>',
+                    marker:{
+                        symbol:'circle',
+                    },
                 },
                     ],
+                legend: {
+                    useHTML:true,
+                },
                 yAxis: {
                     gridLineWidth:0,
                     minorGridLineWidth:0,
@@ -151,10 +217,24 @@ hyptests.directive('gdTpztResults', function() {
                     minorTickWidth:1,
                     tickWidth:1,
                     title:{
-                        text:"Normal PDF"
-                    },
+                        text:'Normal PDF'
+                    }, // title
+                }, // yaxis
+                xAxis: {
+                    plotLines:[{
+                        color:'#FF0000',
+                        width:2,
+                        value:tpzt_ctrl.zscore,
+                    }, /*{
+                        color:'rgba(255,165,0,1)',
+                        width:2,
+                        value:-tpzt_ctrl.zscore,
+                    },*/
+                    ],
                 },
-            });
+            }); // chart
+
+            scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
         },
     };
 });
