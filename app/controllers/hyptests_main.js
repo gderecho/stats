@@ -254,8 +254,7 @@ hyptests.directive('gdTpztResults', function() {
             scope.$watch('tpzt_ctrl.zscore', function(zsc)
             {
                 console.log('HI')
-                chart.series[chart.series.length-1].
-                    data[0].x=zsc;
+                chart.series[chart.series.length-1].setData([{x:zsc, y:pdf_norm(zsc)}]);
                 document.getElementById('pmessage').innerHTML = ((tpzt_ctrl.smallp?'less than \\(10^{-7}\\)':'\\(' + tpzt_ctrl.pvalue.toString() + '\\)'));
                 document.getElementById('zmessage').innerHTML = ('\\(' + zsc.toString() + '\\)');
                 scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
