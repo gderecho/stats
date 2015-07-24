@@ -23,6 +23,8 @@ function erf(x) {
         return 0;
     if(x < 0)
         return -erf(-x);
+    if(x > 3.994) // computation breaks down
+        return 1;
     y=x*x;
     s=1;
     t=1;
@@ -41,6 +43,7 @@ function erf(x) {
     }
     return 2*x*s/Math.sqrt(Math.PI);
 }
+
 
 /* calculates the upper-tail normal
  * probability given a standardized
@@ -69,7 +72,7 @@ for(x=-6;x<=6;x+=.05)
 
 
 var tpzt_ctrl = 
-        hyptests.controller('tpzt_controller',[ function() {
+        hyptests.controller('tpzt_controller',[ '$scope', function(scope) {
     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     this.nulldiff=0;
     this.x1=undefined;
@@ -82,8 +85,9 @@ var tpzt_ctrl =
     this.se_pooled=undefined;
     this.phat_1=undefined;
     this.phat_2=undefined;
-    this.p_value=undefined;
+    this.pvalue=undefined;
     this.zscore=undefined;
+    this.smallp=false;
     this.show = function () {
         if( !(this.x1
             && this.x2
@@ -102,6 +106,16 @@ var tpzt_ctrl =
         this.zscore = (this.diff-this.nulldiff)/(this.se_pooled);
         neg_z = this.zscore < 0 ? this.zscore : -this.zscore;
         this.pvalue=2*ltp_norm(neg_z);
+        if (this.pvalue<.0000001)
+        {
+            this.smallp = true;
+            this.p_message = 'less than \\(10^{-7}\\)';
+        }
+        else
+        {
+            this.smallp = false;
+            this.p_message = this.pvalue.toString();
+        }
         this.bool_reject = this.alpha > this.pvalue;
         this.bool_show=true;
     };
@@ -236,6 +250,7 @@ hyptests.directive('gdTpztResults', function() {
             }); // chart
 
             scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
+            scope.$evalAsync(function () {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"result-stats"]);});
         },
     };
 });
