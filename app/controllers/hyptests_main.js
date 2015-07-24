@@ -251,7 +251,7 @@ hyptests.directive('gdTpztResults', function() {
                     labels: {
                         formatter: function() {
                             return 'z-score: ' + this.value.toString() + '<br />'
-                                + 'value: ' + (this.value*tpzt_ctrl.se_pooled).toPrecision(2) + '<br />';
+                                + 'value: ' + (this.value*tpzt_ctrl.se_pooled+tpzt_ctrl.nulldiff).toPrecision(2) + '<br />';
                         },
                         useHTML: true,
                     },
