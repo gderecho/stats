@@ -162,8 +162,8 @@ hyptests.directive('gdTpztResults', function() {
                     color:'#2780e3',
                 },      {
                     type:'areaspline',
-                    data:normal_dist_values.filter(
-                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) == (tpzt_ctrl.zscore<0?-1:1)) }),
+                    data:[],/*normal_dist_values.filter(
+                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) == (tpzt_ctrl.zscore<0?-1:1)) }),*/
                     fillColor:'rgba(255,0,0,.2)',
                     lineWidth:0,
                     marker: {
@@ -179,8 +179,8 @@ hyptests.directive('gdTpztResults', function() {
                 },
                 {
                     type:'areaspline',
-                    data:normal_dist_values.filter(
-                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) != (tpzt_ctrl.zscore<0?-1:1)) }),
+                    data:[],/*normal_dist_values.filter(
+                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) != (tpzt_ctrl.zscore<0?-1:1)) }),*/
                     fillColor:'rgba(255,165,0,.2)',
                     lineWidth:0,
                     marker: {
@@ -254,13 +254,19 @@ hyptests.directive('gdTpztResults', function() {
             scope.$evalAsync(function () {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"result-stats"]);});
             scope.$watch('tpzt_ctrl.zscore', function(zsc)
             {
-                console.log('HI')
                 chart.series[chart.series.length-1].setData([{x:zsc, y:pdf_norm(zsc)}]);
-                chart.series[1].setData(normal_dist_values.filter(
+                normaldist_copy = normal_dist_values.map(function (x) {return {x:x.x, y:x.y}});
+                normaldist_copy2 = normal_dist_values.map(function (x) {return {x:x.x, y:x.y}});
+                thisdata=normaldist_copy.filter(
                             function(coord){
-                                return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) == (tpzt_ctrl.zscore<0?-1:1)) }));
-                chart.series[2].setData(normal_dist_values.filter(
-                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) != (tpzt_ctrl.zscore<0?-1:1)) }));
+                                return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) == (tpzt_ctrl.zscore<0?-1:1)) });
+                chart.series[1].setData(thisdata);
+                        /*.sort(function(a,b) {return a.x-b.x})*/
+                mirrordata=normaldist_copy2.filter(
+                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) != (tpzt_ctrl.zscore<0?-1:1)) });
+                console.log(mirrordata);
+                chart.series[2].setData(mirrordata);
+                        /*.sort(function(a,b) {return a.x-b.x});*/
                 chart.xAxis[0].removePlotLine('xline');
                 chart.xAxis[0].addPlotLine({color:'#FF0000',
                         width:2,
