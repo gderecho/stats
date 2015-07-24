@@ -1,31 +1,25 @@
 <!DOCTYPE html>
-<html ng-app="input_list">
+<html ng-app="stats_app">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"> </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"> </script>
     <script 
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="app/js/highcharts-custom.js"></script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
+    <script src="app/controllers/hyptests_main.js"></script>
+    <script src="app/controllers/main_controller.js"></script>
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css" />
     <style>
     .tab-content {
-        /*border-left: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-        border-bottom: 1px solid #ddd; */
         padding: 10px;
     }
-    /*.tab-pane {
-        overflow-y: auto;
-        overflow-x: hidden;
-    } */
 
     /* Sticky footer styles
-       -------------------------------------------------- */
+     * sticky footer css taken from 
+     * http://getbootstrap.com/examples/sticky-footer-navbar/sticky-footer-navbar.css */
     html {
         position: relative;
         min-height: 100%;
@@ -44,21 +38,15 @@
         /*background-color: #121212;*/
         padding: 15px;
     }
-    /* sticky footer css taken from 
-     * http://getbootstrap.com/examples/sticky-footer-navbar/sticky-footer-navbar.css */
     .footer > .container {
         color: #444444;
     }
 
     </style>
     <script src="app/js/ui-bootstrap-custom-tpls-0.13.0.min.js"></script>
-    <script type="text/javascript"> 
-        $(window).load(function(){$('#githubmodal').modal("show");});
-    </script>
 </head>
 
 <body>
-      <div class="modal fade" id="githubmodal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Info</h4></div><div class="modal-body"><p>This is a testing page. It is licensed under the GNU GPL v3, so please contact gderecho at github if you would like a copy of the source.</p> </div> <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div></div></div>
     <!-- Put title here -->
     <!-- Put scrolling options
         to choose calculation type
@@ -69,80 +57,14 @@
         </div>
         <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#">One-variable statistics</a></li>
-            <li><a href="#">Statistical hypothesis tests</a></li>
+            <li><a href="#/onevar">One-variable statistics</a></li>
+            <li><a href="#/hyptests">Statistical hypothesis tests</a></li>
         </ul>
         </div>
-
     </nav>
-    <div class="container">
-    <h1>One-variable Statistics Calculator</h1>
-    <form 
-            ng-controller="input_list_ctrl as inctrl"
-            name="input_list"
-            ng-submit="inctrl.get_stats()"
-            novalidate>
-        <tabset>
-        <tab heading="Manual Input" ng-click="inctrl.update_manual_from_bulk()" id="man_input_tab">
-            <div class="form-group">
-                <label ng-if="inctrl.inputs.length!=0"> Current Values </label>
 
-                <div class="row">
-                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs" ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}"> <!-- todo: fix highlighting when elements removed-->
-                        <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
-                        ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
-                            class="form-control" />
-                    </div>
-                </div>
-            </div>
+    <div ng-view></div>
 
-            <div class="form-group">
-                <label>Please enter your values below:</label>
-                <input
-                 ng-repeat="input in inctrl.editing"
-                 ng-model="input.text"
-                 ng-blur="inctrl.check_if_delete_editing(input)"
-                 ng-change="inctrl.check_if_add(input)"
-                 ng-pattern="inctrl.NUM_PATTERN"
-                 placeholder="{{input.id==1 || (inctrl.inputs.length==0 && inctrl.editing.length==1) ? 'Enter a value!' : 'Enter another value!'}}"
-                 class="form-control" style="width:auto" />
-            </div>
-        </tab>
-        <tab heading="Bulk Input" ng-click="inctrl.update_bulk_area()">
-        <div class="form-group">
-            <label>Enter values below:</label>
-            <div class="row"><textarea class="form-control" ng-change="inctrl.bulk_changed()" rows=8 ng-model="inctrl.bulk_in_area"> Hello! </textarea></div>
-            <!--<input class="btn btn-default" value="Upload a file" readonly/>-->
-        </div>
-        </tab>
-        <!--<tab heading="Other"><a>Other</a></tab>-->
-        </tabset>
-
-        <button  ng-disabled="input_list.$invalid" class="btn btn-primary"
-            type="submit" >Calculate one-variable statistics </button>
-
-        <div ng-if="inctrl.numbers.length != 0">
-            <h2>Results</h2>
-            <table class="table table-hover">
-                <thead>
-                    <th>Description</th>
-                    <th>Symbol</th>
-                    <th>Value</th>
-                </thead>
-                <tr ng-repeat="(key,data) in inctrl.stats">
-                    <td>{{inctrl.detail_desc[key]}}</td>
-                    <!-- <td>{{key}}</td> -->
-                    <td mathjax-bind="inctrl.symbolic_desc[key]"></td>
-                    <td mathjax-bind="data"></td>
-                </tr>
-            </table>
-
-            <div class="hc-histogram col-md-6" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
-            <div class="hc-boxplot col-md-6" 
-                series="inctrl.boxplot_series"></div>
-        </div>
-    </form>
-    </div>
     <footer class="footer">
         <div class="container">
             <p class="text-center">Copyright (C) 2015 gderecho</p>

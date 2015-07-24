@@ -1,0 +1,80 @@
+<style>
+/* bootstrap callouts
+ * transcribed by Chris
+ * Pratt: http://cpratt.co/
+ * twitter-bootstrap-callout-css-styles/ */
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+.bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+    margin-bottom: 0;
+}
+.bs-callout code {
+    border-radius: 3px;
+}
+.bs-callout+.bs-callout {
+    margin-top: -5px;
+}
+.bs-callout-default {
+    border-left-color: #777;
+}
+.bs-callout-default h4 {
+    color: #777;
+}
+.bs-callout-primary {
+    border-left-color: #428bca;
+}
+.bs-callout-primary h4 {
+    color: #428bca;
+}
+.bs-callout-success {
+    border-left-color: #5cb85c;
+}
+.bs-callout-success h4 {
+    color: #5cb85c;
+}
+.bs-callout-danger {
+    border-left-color: #d9534f;
+}
+.bs-callout-danger h4 {
+    color: #d9534f;
+}
+.bs-callout-warning {
+    border-left-color: #f0ad4e;
+}
+.bs-callout-warning h4 {
+    color: #f0ad4e;
+}
+.bs-callout-info {
+    border-left-color: #5bc0de;
+}
+.bs-callout-info h4 {
+    color: #5bc0de;
+}
+</style>
+<h2>Results</h2><h3>Two-sample z-test for difference of proportions</h3>
+<div class="bs-callout bs-callout-info">
+<h4>Assumptions for statistical inference</h4>
+<h5>Before reviewing the results,
+consider the following assumptions:</h5>
+<ul> <li> Independence assumption </li> 
+     <li> Sample size assumption </li> 
+</ul> </div>
+</div>
+<div class="bs-callout bs-callout-primary">
+<h4> Results </h4>
+<ul>
+    <li><b>z score:</b> {{tpzt_ctrl.zscore}}</li>
+    <li><b>p value:</b> {{tpzt_ctrl.pvalue}}</li>
+    We recommend that you <b>{{tpzt_ctrl.bool_reject?'reject':'do not reject'}}</b> the null hypothesis.
+</ul>
+</div>
+<div id="hc-tpzt-curve"></div>

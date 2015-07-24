@@ -119,7 +119,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout',functio
         //console.log(this.inputs)
          //       $timeout( function() {angular.element(document).find('man_input_tab').triggerHandler('click')},0)
         this.update_manual_from_bulk();
-        return this.set_stats()
+        return this.set_stats();
     };
 
     this.stats = {};
@@ -274,3 +274,13 @@ inlist_module.directive("mathjaxBind", function() {
             }]
     };
 });
+
+inlist_module.directive("mathjaxWatch", function() {
+    return {
+        controller:["$scope",
+        "$element","$attrs",
+        function($scope,$element,$attrs) {
+            $scope.$watch
+        }]
+    };
+})
