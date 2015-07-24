@@ -46,7 +46,7 @@
 
         <div ng-if="inctrl.numbers.length != 0">
             <h2>Results</h2>
-            <table class="table table-hover">
+            <!--<table class="table table-hover">
                 <thead>
                     <th>Description</th>
                     <th>Symbol</th>
@@ -54,11 +54,11 @@
                 </thead>
                 <tr ng-repeat="(key,data) in inctrl.stats">
                     <td>{{inctrl.detail_desc[key]}}</td>
-                    <!-- <td>{{key}}</td> -->
                     <td mathjax-bind="inctrl.symbolic_desc[key]"></td>
                     <td mathjax-bind="data"></td>
                 </tr>
-            </table>
+            </table>-->
+            <div gd-onevar-results></div>
 
             <div class="hc-histogram col-md-6" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
             <div class="hc-boxplot col-md-6" 
