@@ -297,6 +297,9 @@ hyptests.directive('gdDenom',
             ctrl.$validators.gdDenom= function(thisval) {
                 console.log(thisval);
                 console.log(scope.denom);
+                if(!thisval || !scope.denom)
+                    return true; // let the other 
+                                 // error handlers do it
                 a = parseInt(thisval) <= parseInt(scope.denom);
                 if(!a)
                     //elem.attr('oninvalid',"this.setCustomValidity('Successes must be less than or equal to total observations.')");
