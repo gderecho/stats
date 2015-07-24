@@ -114,7 +114,7 @@ var tpzt_ctrl =
         else
         {
             this.smallp = false;
-            this.p_message = this.pvalue.toString();
+            this.p_message = '$$' + this.pvalue.toString() + '$$';
         }
         this.bool_reject = this.alpha > this.pvalue;
         this.bool_show=true;
@@ -127,7 +127,7 @@ hyptests.directive('gdTpztResults', function() {
         require:'^ngController',
         link: function(scope,elem,attrs,tpzt_ctrl) {
             zscore = tpzt_ctrl.zscore;
-            new Highcharts.Chart({
+            chart = new Highcharts.Chart({
                 chart: {
                     renderTo: 'hc-tpzt-curve',
                 },
@@ -251,6 +251,16 @@ hyptests.directive('gdTpztResults', function() {
 
             scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
             scope.$evalAsync(function () {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"result-stats"]);});
+            scope.$watch('tpzt_ctrl.zscore', function(zsc)
+            {
+                console.log('HI')
+                chart.series[chart.series.length-1].
+                    data[0].x=zsc;
+                document.getElementById('pmessage').innerHTML = ((tpzt_ctrl.smallp?'less than \\(10^{-7}\\)':'\\(' + tpzt_ctrl.pvalue.toString() + '\\)'));
+                document.getElementById('zmessage').innerHTML = ('\\(' + zsc.toString() + '\\)');
+                scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
+                scope.$evalAsync(function () {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"result-stats"]);});
+            },true);
         },
     };
 });
