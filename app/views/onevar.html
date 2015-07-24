@@ -1,35 +1,35 @@
 <div class="container">
     <h1>One-variable Statistics Calculator</h1>
     <form 
-            ng-controller="input_list_ctrl as inctrl"
-            name="input_list"
-            ng-submit="inctrl.get_stats()"
-            novalidate>
+     ng-controller="input_list_ctrl as inctrl"
+     name="input_list"
+     ng-submit="inctrl.get_stats()"
+     novalidate>
         <tabset>
         <tab heading="Manual Input" ng-click="inctrl.update_manual_from_bulk()" id="man_input_tab">
-            <div class="form-group">
-                <label ng-if="inctrl.inputs.length!=0"> Current Values </label>
+        <div class="form-group">
+            <label ng-if="inctrl.inputs.length!=0"> Current Values </label>
 
-                <div class="row">
-                    <div class="col-sm-2" ng-repeat="input in inctrl.inputs" ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}"> <!-- todo: fix highlighting when elements removed-->
-                        <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
-                        ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
-                            class="form-control" />
-                    </div>
+            <div class="row">
+                <div class="col-sm-2" ng-repeat="input in inctrl.inputs" ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}"> <!-- todo: fix highlighting when elements removed-->
+                    <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
+                                                 ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
+                                                                                 class="form-control" />
                 </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label>Please enter your values below:</label>
-                <input
-                 ng-repeat="input in inctrl.editing"
-                 ng-model="input.text"
-                 ng-blur="inctrl.check_if_delete_editing(input)"
-                 ng-change="inctrl.check_if_add(input)"
-                 ng-pattern="inctrl.NUM_PATTERN"
-                 placeholder="{{input.id==1 || (inctrl.inputs.length==0 && inctrl.editing.length==1) ? 'Enter a value!' : 'Enter another value!'}}"
-                 class="form-control" style="width:auto" />
-            </div>
+        <div class="form-group">
+            <label>Please enter your values below:</label>
+            <input
+             ng-repeat="input in inctrl.editing"
+             ng-model="input.text"
+             ng-blur="inctrl.check_if_delete_editing(input)"
+             ng-change="inctrl.check_if_add(input)"
+             ng-pattern="inctrl.NUM_PATTERN"
+             placeholder="{{input.id==1 || (inctrl.inputs.length==0 && inctrl.editing.length==1) ? 'Enter a value!' : 'Enter another value!'}}"
+             class="form-control" style="width:auto" />
+        </div>
         </tab>
         <tab heading="Bulk Input" ng-click="inctrl.update_bulk_area()">
         <div class="form-group">
@@ -42,7 +42,7 @@
         </tabset>
 
         <button  ng-disabled="input_list.$invalid" class="btn btn-primary"
-            type="submit" >Calculate one-variable statistics </button>
+                                                   type="submit" >Calculate one-variable statistics </button>
 
         <div ng-if="inctrl.numbers.length != 0">
             <h2>Results</h2>
@@ -62,8 +62,7 @@
 
             <div class="hc-histogram col-md-6" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
             <div class="hc-boxplot col-md-6" 
-                series="inctrl.boxplot_series"></div>
+                 series="inctrl.boxplot_series"></div>
         </div>
     </form>
-    </div>
-
+</div>
