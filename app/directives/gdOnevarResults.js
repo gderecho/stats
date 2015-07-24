@@ -18,8 +18,13 @@ inlist_module.directive('gdOnevarResults', function() { return {
                     + ctrl.symbolic_desc[keys[i]] + '</script>';
                 row.appendChild(symbol_desc);
                 var data = document.createElement('td');
-                data.innerHTML = '<script type="math/tex">' + 
-                    stats[keys[i]] + '</script>';
+                if(!stats[keys[i]] && stats[keys[i]] != 0) {
+                    data.innerHTML = 'Undefined'
+
+                } else {
+                    data.innerHTML = '<script type="math/tex">' + 
+                        stats[keys[i]] + '</script>';
+                }
                 row.appendChild(data);
                 document.getElementById('onevar_results_main')
                     .appendChild(row);
