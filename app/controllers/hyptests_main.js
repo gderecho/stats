@@ -44,11 +44,29 @@ function erf(x) {
 
 /* calculates the upper-tail normal
  * probability given a standardized
- * (z-) score*/
+ * (z-) score. known as normal cumulative
+ * distribution function */
 function ltp_norm(x)
 {
     return .5*(1+erf(x/Math.sqrt(2)))
 }
+
+/* calculates the normal probability
+ * density function with the standard
+ * normal distribution
+ * */
+function pdf_norm(x)
+{
+    return Math.exp(-x*x/2)/(Math.sqrt(2*Math.PI))
+}
+
+/* an array with the normal distribution */
+normal_dist_values=[]
+for(x=-6;x<=6;x+=.05)
+{
+    normal_dist_values.push({x:x,y:pdf_norm(x)});
+}
+
 
 var tpzt_ctrl = 
         hyptests.controller('tpzt_controller',[ function() {
@@ -65,6 +83,7 @@ var tpzt_ctrl =
     this.phat_1=undefined;
     this.phat_2=undefined;
     this.p_value=undefined;
+    this.zscore=undefined;
     this.show = function () {
         if( !(this.x1
             && this.x2
@@ -89,7 +108,54 @@ var tpzt_ctrl =
 
 hyptests.directive('gdTpztResults', function() {
     return {
-        templateUrl: 'app/views/hyptests/tpzt_results_template.html'
+        templateUrl: 'app/views/hyptests/tpzt_results_template.html',
+        require:'^ngController',
+        link: function(scope,elem,attrs,tpzt_ctrl) {
+            zscore = tpzt_ctrl.zscore;
+            new Highcharts.Chart({
+                chart: {
+                    renderTo: 'hc-tpzt-curve',
+                },
+                credits: {
+                    enabled: false,
+                },
+                title: {
+                    text:'Hello',
+                },
+                series: [{
+                    type:'spline',
+                        /* precalculated 
+                         * normal distribution */
+                    data:normal_dist_values,
+                    marker:{
+                        enabled:false,
+                        states: {
+                            hover: {
+                                enabled:false,
+                            },
+                        },
+                    },
+                    enableMouseTracking:false,
+                    name:'Gaussian curve',
+                },
+                        {
+                    type:'scatter',
+                    data:[{x:zscore,y:pdf_norm(zscore)},],
+                },
+                    ],
+                yAxis: {
+                    gridLineWidth:0,
+                    minorGridLineWidth:0,
+                    min:0,
+                    max:.4,
+                    minorTickWidth:1,
+                    tickWidth:1,
+                    title:{
+                        text:"Normal PDF"
+                    },
+                },
+            });
+        },
     };
 });
 
