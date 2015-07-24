@@ -240,6 +240,7 @@ hyptests.directive('gdTpztResults', function() {
                         color:'#FF0000',
                         width:2,
                         value:tpzt_ctrl.zscore,
+                        id:'xline',
                     }, /*{
                         color:'rgba(255,165,0,1)',
                         width:2,
@@ -255,6 +256,18 @@ hyptests.directive('gdTpztResults', function() {
             {
                 console.log('HI')
                 chart.series[chart.series.length-1].setData([{x:zsc, y:pdf_norm(zsc)}]);
+                chart.series[1].setData(normal_dist_values.filter(
+                            function(coord){
+                                return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) == (tpzt_ctrl.zscore<0?-1:1)) }));
+                chart.series[2].setData(normal_dist_values.filter(
+                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) != (tpzt_ctrl.zscore<0?-1:1)) }));
+                chart.xAxis[0].removePlotLine('xline');
+                chart.xAxis[0].addPlotLine({color:'#FF0000',
+                        width:2,
+                        value:tpzt_ctrl.zscore,
+                        id:'xline',
+                });
+
                 document.getElementById('pmessage').innerHTML = ((tpzt_ctrl.smallp?'less than \\(10^{-7}\\)':'\\(' + tpzt_ctrl.pvalue.toString() + '\\)'));
                 document.getElementById('zmessage').innerHTML = ('\\(' + zsc.toString() + '\\)');
                 scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
