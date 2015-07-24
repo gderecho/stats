@@ -246,8 +246,20 @@ hyptests.directive('gdTpztResults', function() {
                         width:2,
                         value:-tpzt_ctrl.zscore,
                     },*/
-                    ],
-                },
+                    ], //plotlines
+
+                    labels: {
+                        formatter: function() {
+                            return 'z-score: ' + this.value.toString() + '<br />'
+                                + 'value: ' + (this.value*tpzt_ctrl.se_pooled).toPrecision(2) + '<br />';
+                        },
+                        useHTML: true,
+                    },
+                }, // xAxis
+
+                spacingRight:25,
+                spacingLeft:25,
+
             }); // chart
 
             scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
