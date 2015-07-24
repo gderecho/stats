@@ -44,11 +44,29 @@ function erf(x) {
 
 /* calculates the upper-tail normal
  * probability given a standardized
- * (z-) score*/
+ * (z-) score. known as normal cumulative
+ * distribution function */
 function ltp_norm(x)
 {
     return .5*(1+erf(x/Math.sqrt(2)))
 }
+
+/* calculates the normal probability
+ * density function with the standard
+ * normal distribution
+ * */
+function pdf_norm(x)
+{
+    return Math.exp(-x*x/2)/(Math.sqrt(2*Math.PI))
+}
+
+/* an array with the normal distribution */
+normal_dist_values=[]
+for(x=-6;x<=6;x+=.05)
+{
+    normal_dist_values.push({x:x,y:pdf_norm(x)});
+}
+
 
 var tpzt_ctrl = 
         hyptests.controller('tpzt_controller',[ function() {
@@ -65,6 +83,7 @@ var tpzt_ctrl =
     this.phat_1=undefined;
     this.phat_2=undefined;
     this.p_value=undefined;
+    this.zscore=undefined;
     this.show = function () {
         if( !(this.x1
             && this.x2
@@ -83,13 +102,141 @@ var tpzt_ctrl =
         this.zscore = (this.diff-this.nulldiff)/(this.se_pooled);
         neg_z = this.zscore < 0 ? this.zscore : -this.zscore;
         this.pvalue=2*ltp_norm(neg_z);
+        this.bool_reject = this.alpha > this.pvalue;
         this.bool_show=true;
     };
 }]);
 
 hyptests.directive('gdTpztResults', function() {
     return {
-        templateUrl: 'app/views/hyptests/tpzt_results_template.html'
+        templateUrl: 'app/views/hyptests/tpzt_results_template.html',
+        require:'^ngController',
+        link: function(scope,elem,attrs,tpzt_ctrl) {
+            zscore = tpzt_ctrl.zscore;
+            new Highcharts.Chart({
+                chart: {
+                    renderTo: 'hc-tpzt-curve',
+                },
+                credits: {
+                    enabled: false,
+                },
+                title: {
+                    text:'Normal Distribution',
+                },
+                plotOptions:{
+                    series:{
+                        dataLabels: {
+                            useHTML:true,
+                        }
+                    },
+                },
+                series: [{
+                    type:'spline',
+                        /* precalculated 
+                         * normal distribution */
+                    data:normal_dist_values,
+                    marker:{
+                        enabled:false,
+                        states: {
+                            hover: {
+                                enabled:false,
+                            },
+                        },
+                    },
+                    enableMouseTracking:false,
+                    name:'Gaussian curve',
+                    color:'#2780e3',
+                },      {
+                    type:'areaspline',
+                    data:normal_dist_values.filter(
+                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) == (tpzt_ctrl.zscore<0?-1:1)) }),
+                    fillColor:'rgba(255,0,0,.2)',
+                    lineWidth:0,
+                    marker: {
+                        enabled:false,
+                        states: {
+                            hover: {
+                                enabled:false,
+                            },
+                        },
+                    },
+                    enableMouseTracking:false,
+                    showInLegend:false,
+                },
+                {
+                    type:'areaspline',
+                    data:normal_dist_values.filter(
+                            function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) != (tpzt_ctrl.zscore<0?-1:1)) }),
+                    fillColor:'rgba(255,165,0,.2)',
+                    lineWidth:0,
+                    marker: {
+                        enabled:false,
+                        states: {
+                            hover: {
+                                enabled:false,
+                            },
+                        },
+                    },
+                    enableMouseTracking:false,
+                    showInLegend:false,
+                },
+                        {
+                    type:'scatter',
+                    data:[{x:zscore,y:pdf_norm(zscore)},],
+                    color:'#000000',
+                    tooltip:{
+                        //pointFormat:'<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.x}</b><br/>',
+                        pointFormatter: function() {
+                            return '<span style="color:' 
+                                + this.color
+                                + '">\u25CF</span> '
+                                + 'p\u0302<sub>1</sub>-p\u0302<sub>2</sub>'
+                                + '<br /> <b>'
+                                + 'Value:</b> ' 
+                                + tpzt_ctrl.diff.toString()
+                                + '<br /> <b>Test (z) statistic:</b> '
+                                + this.x
+                                + '<br/>'
+                        },
+                        headerFormat:'',
+                        useHTML:true,
+                    },
+                    name:'p\u0302<sub>1</sub>-p\u0302<sub>2</sub>',
+                    marker:{
+                        symbol:'circle',
+                    },
+                },
+                    ],
+                legend: {
+                    useHTML:true,
+                },
+                yAxis: {
+                    gridLineWidth:0,
+                    minorGridLineWidth:0,
+                    min:0,
+                    max:.4,
+                    minorTickWidth:1,
+                    tickWidth:1,
+                    title:{
+                        text:'Normal PDF'
+                    }, // title
+                }, // yaxis
+                xAxis: {
+                    plotLines:[{
+                        color:'#FF0000',
+                        width:2,
+                        value:tpzt_ctrl.zscore,
+                    }, /*{
+                        color:'rgba(255,165,0,1)',
+                        width:2,
+                        value:-tpzt_ctrl.zscore,
+                    },*/
+                    ],
+                },
+            }); // chart
+
+            scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
+        },
     };
 });
 
