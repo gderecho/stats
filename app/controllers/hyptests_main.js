@@ -102,6 +102,7 @@ var tpzt_ctrl =
         this.zscore = (this.diff-this.nulldiff)/(this.se_pooled);
         neg_z = this.zscore < 0 ? this.zscore : -this.zscore;
         this.pvalue=2*ltp_norm(neg_z);
+        this.bool_reject = this.alpha > this.pvalue;
         this.bool_show=true;
     };
 }]);
@@ -120,7 +121,7 @@ hyptests.directive('gdTpztResults', function() {
                     enabled: false,
                 },
                 title: {
-                    text:'Hello',
+                    text:'Normal Distribution',
                 },
                 plotOptions:{
                     series:{
