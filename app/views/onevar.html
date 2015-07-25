@@ -21,14 +21,16 @@
 
         <div class="form-group">
             <label>Please enter your values below:</label>
-            <input
-             ng-repeat="input in inctrl.editing"
-             ng-model="input.text"
-             ng-blur="inctrl.check_if_delete_editing(input)"
-             ng-change="inctrl.check_if_add(input)"
-             ng-pattern="inctrl.NUM_PATTERN"
-             placeholder="{{input.id==1 || (inctrl.inputs.length==0 && inctrl.editing.length==1) ? 'Enter a value!' : 'Enter another value!'}}"
-             class="form-control" style="width:auto" />
+            <div ng-class="{'has-success':inctrl.pause_transfer && $index==0 && input.text}" ng-repeat="input in inctrl.editing">
+                <input 
+                 ng-model="input.text"
+                 ng-blur="inctrl.check_if_delete_editing(input)"
+                 ng-change="inctrl.check_if_add(input)"
+                 ng-pattern="inctrl.NUM_PATTERN"
+                 placeholder="{{input.id==1 || (inctrl.inputs.length==0 && inctrl.editing.length==1) ? 'Enter a value!' : 'Enter another value!'}}"
+                 id="editing{{$index}}"
+                 class="form-control" style="width:auto" />
+             </div>
         </div>
         </tab>
         <tab heading="Bulk Input" ng-click="inctrl.update_bulk_area()">
@@ -42,6 +44,8 @@
         </tabset>
 
         <button  ng-disabled="input_list.$invalid" class="btn btn-primary"
+           ng-mousedown="inctrl.stop_jump()" ng-mouseup="inctrl.continue_jump()"
+           ng-mouseleave="inctrl.continue_jump()"
            type="submit" >Calculate one-variable statistics </button>
 
         <div ng-if="inctrl.numbers.length != 0">

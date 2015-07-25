@@ -1,6 +1,6 @@
 var inlist_module = angular.module("input_list", ['one_var_stats','ui.bootstrap']);
 
-inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout',function(get_ovar_stats,$timeout) {
+inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$compile','$scope',function(get_ovar_stats,$timeout,$q,$compile,$scope) {
     this.inputs = [];
     this.bulk_in_area = "";
     this.numbers=[];
@@ -85,8 +85,28 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout',functio
             if(index != this.editing.length-1)
                 this.editing.splice(this.editing.length-1,1)
         } else {
-            this.inputs.push(input);
-            this.editing.splice(index,1);
+            //if(this.inputs.length != 0) {
+            //    this.inputs.push(input);
+            //}
+            if(this.pause_transfer)
+            {
+                this_ref = this;
+                var reference = this.pause_transfer;
+                var inputs = this.inputs;
+                var ed_ref = this.editing;
+                this.pause_transfer.promise.then(function(){
+                    console.log('NOW');
+                    //if(inputs.length == 0)
+                        inputs.push(input)
+                    ed_ref.splice(index,1);
+                    delete this_ref.pause_transfer;
+                });
+            } else {
+                //if(this.inputs.length == 0) {
+                    this.inputs.push(input);
+                //}
+                this.editing.splice(index,1);
+            }
         }
     };
     this.check_if_delete_inputs = function(input) {
@@ -121,6 +141,22 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout',functio
         this.update_manual_from_bulk();
         return this.set_stats();
     };
+
+
+
+    /*
+     * Helper functions make sure that the
+     * input doesn't jump after the user
+     * hits the submit button
+     */
+    this.stop_jump = function() {
+        console.log('YES');
+        this.pause_transfer = $q.defer();
+    }
+    this.continue_jump = function() {
+        if(this.pause_transfer)
+            this.pause_transfer.resolve();
+    }
 
     this.stats = {};
     this.symbolic_desc = get_ovar_stats.get_symbolic_desc();
