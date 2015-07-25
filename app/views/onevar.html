@@ -1,3 +1,12 @@
+<style>
+.gd-extra-space {
+    margin-bottom:15px;
+    /*padding:5px;*/
+}
+.gd-remove-space {
+    margin-top:-15px;
+}
+</style>
 <div class="container">
     <h1>One-variable Statistics Calculator</h1>
     <form 
@@ -11,15 +20,16 @@
             <label ng-if="inctrl.inputs.length!=0"> Current Values </label>
 
             <div class="row">
-                <div class="col-sm-2" ng-repeat="input in inctrl.inputs" ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}"> <!-- todo: fix highlighting when elements removed-->
-                    <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
-                        ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
-                        class="form-control" />
+                <div class="col-sm-2 gd-extra-space" ng-repeat="input in inctrl.inputs" 
+                    ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':input_list.input{{$index}}.$valid}"> <!-- todo: fix highlighting when elements removed-->
+                        <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
+                            ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
+                            class="form-control" />
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group gd-remove-space">
             <label>Please enter your values below:</label>
             <div ng-class="{'has-success':inctrl.pause_transfer && $index==0 && input.text}" ng-repeat="input in inctrl.editing">
                 <input 
