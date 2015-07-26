@@ -317,20 +317,20 @@ hyptests.directive('tpztCalculations', function() {
             scope.$watchGroup(['tpzt_ctrl.phat_pooled','tpzt_ctrl.se_pooled','tpzt_ctrl.zscore','tpzt_ctrl.pvalue'],
                     function()
                     { 
-                        var line1='<script type="math/tex">\\begin{eqnarray*}';
+                        var line1='<script type="math/tex">\\begin{align*}';
                         var line2='\\hat{p}_1 - \\hat{p}_2 & : & \\frac{'
-                            + tpzt_ctrl.x1 + '}{' + tpzt_ctrl.n1 + '}'
-                            + '-' + '\\frac{' + tpzt_ctrl.x2 + '}'
-                            + '{' + tpzt_ctrl.n2+'} & = & ' + tpzt_ctrl.diff + '\\\\';
+                            + 'x_1' + '}{' + 'n_1' + '}'
+                            + '-' + '\\frac{' + 'x_2' + '}'
+                            + '{' +'n_2'+'} & =  ' + tpzt_ctrl.diff + '\\\\[1em]';
                         var line3='\\hat{p}_\\textrm{pooled} & : & \\frac{'
-                            + tpzt_ctrl.x1 + '+' + tpzt_ctrl.x2 + '}{'
-                            + tpzt_ctrl.n1 + '+' + tpzt_ctrl.x2 + '} & = & '
-                            + tpzt_ctrl.phat_pooled + '\\\\';
+                            + 'x_1' + '+' + 'x_2' + '}{'
+                            + 'n_1' + '+' + 'n_2' + '} & =  '
+                            + tpzt_ctrl.phat_pooled + '\\\\[1em]';
                         var line4='\\textrm{SE}_{\\hat{p}_1-\\hat{p}_2} & : & '
-                            + '\\sqrt{\\frac{(\\hat{p}_\\textrm{pooled})(1-\\hat{p}_\\textrm{pooled})}{n_1} + \\frac{(\\hat{p}_\\textrm{pooled})(1-\\hat{p}_\\textrm{pooled})}{n_2}} & = & ' + tpzt_ctrl.se_pooled + '\\\\';
-                        var line5='z&:&\\frac{(\\hat{p}_1 - \\hat{p}_2)-(p_1-p_2)_{H_0}}{\\textrm{SE}_{\\hat{p}_1 - \\hat{p}_2}}&=&' + tpzt_ctrl.zscore + '\\\\';
-                        var line6='p\\textrm{-value}&:&2\\left(\\frac{1}{2}\\left(1+\\textrm{erf}\\left(-\\frac{|z|}{\\sqrt{2}}\\right)\\right)\\right)&=&' + tpzt_ctrl.pvalue
-                        var end = '\\end{eqnarray*}</script>';
+                            + '\\sqrt{\\frac{(\\hat{p}_\\textrm{pooled})(1-\\hat{p}_\\textrm{pooled})}{n_1} + \\frac{(\\hat{p}_\\textrm{pooled})(1-\\hat{p}_\\textrm{pooled})}{n_2}} & =  ' + tpzt_ctrl.se_pooled + '\\\\[1em]';
+                        var line5='z&:&\\frac{(\\hat{p}_1 - \\hat{p}_2)-(p_1-p_2)_{H_0}}{\\textrm{SE}_{\\hat{p}_1 - \\hat{p}_2}}&=' + tpzt_ctrl.zscore + '\\\\[1em]';
+                        var line6='p\\textrm{-value}&:&1+\\textrm{erf}\\left(-\\frac{|z|}{\\sqrt{2}}\\right)&=' + tpzt_ctrl.pvalue
+                        var end = '\\end{align*}</script>';
                         document.getElementById('tpzt_calculations').innerHTML
                             = line1+line2+line3+line4+line5+line6+end;
                         MathJax.Hub.Queue(["Typeset",MathJax.Hub,'tpzt_calculations']);
