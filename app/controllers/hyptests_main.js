@@ -125,8 +125,19 @@ var tpzt_ctrl =
         }
         this.bool_reject = this.alpha > this.pvalue;
         this.bool_show=true;
+        if(this.bool_reject)
+        {
+            this.result_message="Because the p-value, <mark>" + this.pvalue
+                + "</mark>, is under our significance level, <mark>" + this.alpha
+                + "</mark>, there is significant evidence against the null hypothesis."
+        }
+        else
+        {
+            this.result_message="YOu are dum.";
+        }
     };
 }]);
+
 
 hyptests.directive('gdTpztResults', function() {
     return {
