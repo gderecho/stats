@@ -94,18 +94,20 @@ mod.factory('get_ovar_stats', function() {
             } );
         }
 
-        // O(n^2) please improve!!!!
+        var b_index = 0;
         for(v_index in values)
         {
-            for(b_index in bins)
+            var value = values[v_index];
+            var min = bins[b_index].min;
+            var max = bins[b_index].max;
+            if(value >= min && value <= max)
+                bins[b_index].num++;
+            else
             {
-                var value = values[v_index]
-                var min = bins[b_index].min
-                var max = bins[b_index].max
-                if(value >= min && value <= max) {
-                    bins[b_index].num++;
+                b_index++;
+                if(b_index >= bins.length)
                     break;
-                }
+                bins[b_index].num++
             }
         }
 
