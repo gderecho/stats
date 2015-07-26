@@ -91,10 +91,10 @@ consider the following assumptions:</h5>
     the null hypothesis.</p>
     <div class="row">
         <div class="col-md-3">
-            <button class="button btn-default form-control"
-                ng-click="inctrl.calculations_collapsed=!inctrl.calculations_collapsed"
+            <button class="button btn-default form-control" id="showcalc_button"
+                ng-click="inctrl.calculations_collapsed=!inctrl.calculations_collapsed;"
                 ng-init="inctrl.calculations_collapsed=!inctrl.calculations_collapsed" >
-                Show Calculations</button>
+                {{inctrl.calculations_collapsed?'Show Calculations':'Hide Calculations'}}</button>
         </div>
     </div>
     <div collapse="inctrl.calculations_collapsed">
