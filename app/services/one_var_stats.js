@@ -32,7 +32,7 @@ mod.factory('get_ovar_stats', function() {
     }; 
     var get_symbolic_desc = function() {return {
         n:"n",
-        sum:"\\sum_i x_i",
+        sum:"\\sum_{i}^{n} x_i",
         avg:"\\overline{x}",
         max:"\\textrm{max}(x_i)",
         min:"\\textrm{min}(x_i)",
@@ -164,10 +164,22 @@ mod.factory('get_ovar_stats', function() {
                     marker:{lineColor:Highcharts.getOptions().colors[0],lineWidth:1,fillColor:'white',symbol:'circle',},
                     tooltip:{pointFormatter:function() {return "<b>Outlier</b><br />Value: " + this.y.toString()}}}];
     };
+    var get_expl_text= function() {
+        return {
+            n:'app/views/onevar/popover_exptext_n.html',
+            avg:'app/views/onevar/popover_exptext_avg.html',
+            sum:'app/views/onevar/popover_exptext_sum.html',
+            s:'app/views/onevar/popover_exptext_s.html',
+            s2:'app/views/onevar/popover_exptext_s2.html',
+            min:'app/views/onevar/popover_exptext_min.html',
+            max:'app/views/onevar/popover_exptext_max.html'
+        };
+    }
     return {get:get,
         get_detail_desc:get_detail_desc,
     get_symbolic_desc:get_symbolic_desc,
     get_histogram_data:get_histogram_data,
     get_boxplot_series:get_boxplot_series,
-    get_points_from_bins:get_points_from_bins};
+    get_points_from_bins:get_points_from_bins,
+    get_expl_text:get_expl_text,};
 });

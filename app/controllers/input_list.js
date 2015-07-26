@@ -50,6 +50,10 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
         this.bool_update_from_bulk = false;
     }
 
+    this.typeset = function(id) {
+        MathJax.Hub.Queue(['Typeset',MathJax.Hub,id]);
+    }
+
     this.update_manual_from_bulk = function() {
         if(!this.bool_update_from_bulk) 
             return;
@@ -161,6 +165,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.stats = {};
     this.symbolic_desc = get_ovar_stats.get_symbolic_desc();
     this.detail_desc=get_ovar_stats.get_detail_desc();
+    this.popover_text=get_ovar_stats.get_expl_text();
 }]);
 
 inlist_module.directive('hcHistogram', function() {
