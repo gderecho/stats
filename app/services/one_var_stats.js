@@ -102,12 +102,8 @@ mod.factory('get_ovar_stats', function() {
                 var value = values[v_index]
                 var min = bins[b_index].min
                 var max = bins[b_index].max
-                console.log(value)
-                console.log(min)
-                console.log(max)
                 if(value >= min && value <= max) {
                     bins[b_index].num++;
-                    console.log('yes');
                     break;
                 }
             }

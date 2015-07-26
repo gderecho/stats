@@ -28,8 +28,6 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
      * to bulk input */
     this.check_if_add = function(input) {
         index = this.editing.indexOf(input)
-        console.log(input.text)
-        console.log(this.check_if_number(input.text))
         if(!this.check_if_number(input.text))
             return;
         if(index == this.editing.length-1) {
@@ -57,12 +55,11 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.update_manual_from_bulk = function() {
         if(!this.bool_update_from_bulk) 
             return;
-        bulk_in_array = this.bulk_in_area.split(/,| /);
+        bulk_in_array = this.bulk_in_area.split(/[,\s]/);
         this.inputs = [];
         this.curid = 0;
         for(i=0; i<bulk_in_array.length; i++) {
             cur_in = bulk_in_array[i];
-            console.log(cur_in);
             if(cur_in == "")
                 continue;
             if(this.NUM_PATTERN.test(cur_in)) {
@@ -99,7 +96,6 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
                 var inputs = this.inputs;
                 var ed_ref = this.editing;
                 this.pause_transfer.promise.then(function(){
-                    console.log('NOW');
                     //if(inputs.length == 0)
                         inputs.push(input)
                     ed_ref.splice(index,1);
@@ -124,7 +120,6 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
         return "$$" + i + "$$" 
     }
     this.set_stats = function() {
-        console.log(this.inputs)
         this.numbers=[];
         for (key in this.inputs) {
             text = this.inputs[key].text;
@@ -135,12 +130,10 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
         this.histogram_bins=(get_ovar_stats.get_histogram_data(this.numbers));
         this.histogram_points =(get_ovar_stats.get_points_from_bins(this.histogram_bins));
         this.boxplot_series = (get_ovar_stats.get_boxplot_series(this.numbers));
-        console.log(this.boxplot_series);
         return this.stats;
     }
 
     this.get_stats = function() {
-        //console.log(this.inputs)
          //       $timeout( function() {angular.element(document).find('man_input_tab').triggerHandler('click')},0)
         this.update_manual_from_bulk();
         return this.set_stats();
@@ -154,7 +147,6 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
      * hits the submit button
      */
     this.stop_jump = function() {
-        console.log('YES');
         this.pause_transfer = $q.defer();
     }
     this.continue_jump = function() {
@@ -177,7 +169,6 @@ inlist_module.directive('hcHistogram', function() {
             bins:"=bins",
         },
         controller:function($scope,$element,$attrs){
-            console.log($scope)
         },
         template:'<div id="hist"></div>',
         link: function(scope,element,attrs) {
@@ -245,7 +236,6 @@ inlist_module.directive('hcBoxplot', function() {
             in_series:"=series",
         },
         controller:function($scope,$element,$attrs){
-            console.log($scope)
         },
         template:'<div id="box"></div>',
         link: function(scope,element,attrs) {
@@ -276,14 +266,10 @@ inlist_module.directive('hcBoxplot', function() {
             scope.$watch("in_series", function(in_series) {
                 while(chart.series.length > 0)
                     chart.series[0].remove(true);
-                console.log(in_series)
                 for(i in in_series)
                 {
                     chart.addSeries(in_series[i]);
-                    console.log("series added");
-                    console.log(in_series[i]);
                 }
-                console.log(chart.series);
             });
         }
     };
