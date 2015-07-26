@@ -87,8 +87,20 @@ consider the following assumptions:</h5>
 <ul id="result-stats">
     <li><b><a popover="The z-score is the number of standard errors the observed result is from the expected value according to the null hypothesis. For the two-proportion z-test, it is also the test statistic." popover-trigger="mouseenter" href="javascript:;">z score</a>:</b> <span id="zmessage"></span></li>
     <li><b><a popover="The p-value is the probability of receiving a result as extreme as or more extreme than the one observed, given the null hypothesis is true." href="javascript:;" popover-trigger="mouseenter">p value</a>:</b> <span id="pmessage">{{tpzt_ctrl.p_message}}</span></li>
-    We recommend that you <a href="javascript:;" popover-template="'app/views/hyptests/tpzt_reject_explanation_template.html'" popover-trigger="mouseenter"><b>{{tpzt_ctrl.bool_reject?'reject':'do not reject'}}</b></a> 
-    the null hypothesis.
+    <p>We recommend that you <a href="javascript:;" popover-template="'app/views/hyptests/tpzt_reject_explanation_template.html'" popover-trigger="mouseenter"><b>{{tpzt_ctrl.bool_reject?'reject':'do not reject'}}</b></a> 
+    the null hypothesis.</p>
+    <div class="row">
+        <div class="col-md-3">
+            <button class="button btn-default form-control"
+                ng-click="inctrl.calculations_collapsed=!inctrl.calculations_collapsed"
+                ng-init="inctrl.calculations_collapsed=!inctrl.calculations_collapsed" >
+                Show Calculations</button>
+        </div>
+    </div>
+    <div collapse="inctrl.calculations_collapsed">
+        <hr />
+        <div tpzt-calculations></div>
+    </div>
 </ul>
 </div>
 <div id="hc-tpzt-curve"></div>

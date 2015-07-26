@@ -58,7 +58,7 @@ function erf(x) {
  * distribution function */
 function ltp_norm(x)
 {
-    return .5*(1+erf(x/Math.sqrt(2)))
+    return .5*(1+erf(x/Math.sqrt(2)));
 }
 
 /* calculates the normal probability
@@ -67,7 +67,7 @@ function ltp_norm(x)
  * */
 function pdf_norm(x)
 {
-    return Math.exp(-x*x/2)/(Math.sqrt(2*Math.PI))
+    return Math.exp(-x*x/2)/(Math.sqrt(2*Math.PI));
 }
 
 /* an array with the normal distribution */
@@ -95,6 +95,7 @@ var tpzt_ctrl =
     this.pvalue=undefined;
     this.zscore=undefined;
     this.smallp=false;
+    this.calculations_collapsed=true;
     this.show = function () {
         if( !(this.x1
             && this.x2
@@ -307,6 +308,37 @@ hyptests.directive('gdTpztResults', function() {
         },
     };
 });
+
+hyptests.directive('tpztCalculations', function() {
+    return {
+        require:'^ngController',
+        template:'<div id="tpzt_calculations"></div>',
+        link:function(scope,elem,attrs,tpzt_ctrl) {
+            scope.$watchGroup(['tpzt_ctrl.phat_pooled','tpzt_ctrl.se_pooled','tpzt_ctrl.zscore','tpzt_ctrl.pvalue'],
+                    function()
+                    { 
+                        var line1='<script type="math/tex">\\begin{eqnarray*}';
+                        var line2='\\hat{p}_1 - \\hat{p}_2 & : & \\frac{'
+                            + tpzt_ctrl.x1 + '}{' + tpzt_ctrl.n1 + '}'
+                            + '-' + '\\frac{' + tpzt_ctrl.x2 + '}'
+                            + '{' + tpzt_ctrl.n2+'} & = & ' + tpzt_ctrl.diff + '\\\\';
+                        var line3='\\hat{p}_\\textrm{pooled} & : & \\frac{'
+                            + tpzt_ctrl.x1 + '+' + tpzt_ctrl.x2 + '}{'
+                            + tpzt_ctrl.n1 + '+' + tpzt_ctrl.x2 + '} & = & '
+                            + tpzt_ctrl.phat_pooled + '\\\\';
+                        var line4='\\textrm{SE}_{\\hat{p}_1-\\hat{p}_2} & : & '
+                            + '\\sqrt{\\frac{(\\hat{p}_\\textrm{pooled})(1-\\hat{p}_\\textrm{pooled})}{n_1} + \\frac{(\\hat{p}_\\textrm{pooled})(1-\\hat{p}_\\textrm{pooled})}{n_2}} & = & ' + tpzt_ctrl.se_pooled + '\\\\';
+                        var line5='z&:&\\frac{(\\hat{p}_1 - \\hat{p}_2)-(p_1-p_2)_{H_0}}{\\textrm{SE}_{\\hat{p}_1 - \\hat{p}_2}}&=&' + tpzt_ctrl.zscore + '\\\\';
+                        var line6='p\\textrm{-value}&:&2\\left(\\frac{1}{2}\\left(1+\\textrm{erf}\\left(-\\frac{|z|}{\\sqrt{2}}\\right)\\right)\\right)&=&' + tpzt_ctrl.pvalue
+                        var end = '\\end{eqnarray*}</script>';
+                        document.getElementById('tpzt_calculations').innerHTML
+                            = line1+line2+line3+line4+line5+line6+end;
+                        MathJax.Hub.Queue(["Typeset",MathJax.Hub,'tpzt_calculations']);
+                    })
+        }
+
+    };
+})
 
 /* Makes sure that this
  * is less than the denominator

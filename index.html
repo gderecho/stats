@@ -6,6 +6,19 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"> </script>
     <script 
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+MathJax.Hub.Config({
+    "HTML-CSS": {
+        availableFonts: ["STIX"],
+        preferredFont: "STIXGeneral",
+        webFont: "STIX-Web",
+        imageFont: "STIX-Web",
+    },
+    SVG: {
+        font:"STIX-Web"
+    },
+});
+    </script>
     <script src="app/js/highcharts-custom.js"></script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
