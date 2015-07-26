@@ -196,7 +196,7 @@ inlist_module.directive('hcHistogram', function() {
                         shadow:false,
                         pointPadding:0,
                         groupPadding:0,
-                        color:'rgba(205,205,205,.9)',
+                        color:'rgba(0,193,0,.8)',
                         borderColor:'#666',
                         borderWidth:.4,
                     }
