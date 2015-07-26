@@ -6,6 +6,19 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"> </script>
     <script 
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+MathJax.Hub.Config({
+    "HTML-CSS": {
+        availableFonts: ["STIX"],
+        preferredFont: "STIXGeneral",
+        webFont: "STIX-Web",
+        imageFont: "STIX-Web",
+    },
+    SVG: {
+        font:"STIX-Web"
+    },
+});
+    </script>
     <script src="app/js/highcharts-custom.js"></script>
     <script src="app/controllers/input_list.js"></script>
     <script src="app/services/one_var_stats.js"></script>
@@ -42,6 +55,18 @@
     .footer > .container {
         color: #444444;
     }
+
+    /* get rid of the stupid spinners */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+                    margin: 0;
+    }
+
+    input[type=number] {
+            -moz-appearance:textfield;
+    }
+
 
     </style>
     <script src="app/js/ui-bootstrap-custom-tpls-0.13.0.min.js"></script>

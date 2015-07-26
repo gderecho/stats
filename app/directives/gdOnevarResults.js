@@ -1,4 +1,4 @@
-inlist_module.directive('gdOnevarResults', function() { return {
+inlist_module.directive('gdOnevarResults', function($compile) { return {
     require:'^ngController', //input_list_ctrl
     templateUrl:'app/views/onevar_results_table.html',
     link: function(scope,elem,attrs,ctrl) {
@@ -10,7 +10,9 @@ inlist_module.directive('gdOnevarResults', function() { return {
             for(i=0; i<keys.length; i++) {
                 var row = document.createElement('tr');
                 var detail_desc = document.createElement('td');
-                detail_desc.innerHTML = (ctrl.detail_desc[keys[i]]);
+                detail_desc.innerHTML = '<span popover-template="inctrl.popover_text[\''
+                    + keys[i]
+                    + '\']" popover-trigger="mouseenter" popover-placement="bottom"><a href="javascript:;">' + (ctrl.detail_desc[keys[i]]) + '</a></span>';
                 row.appendChild(detail_desc);
                 var symbol_desc = document.createElement('td');
                 symbol_desc.innerHTML = 
@@ -30,6 +32,7 @@ inlist_module.directive('gdOnevarResults', function() { return {
                     .appendChild(row);
 
             }
+            $compile(elem.contents())(scope);
             MathJax.Hub.Queue(['Typeset',MathJax.Hub,'onevar_table_main']);
         },true);
     },

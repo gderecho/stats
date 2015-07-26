@@ -59,22 +59,137 @@
 .bs-callout-info h4 {
     color: #5bc0de;
 }
+/* my styles */
+.highcharts-tooltip>span {
+    z-index:1000;
+    border: 2px solid black;
+    border-radius: 3px;
+    background: rgba(255,255,255,.9);
+    padding: 9px;
+}
+
+mark {
+    background-color:#fcf8e3;
+}
+
+.bg-info {
+    background-color:rgba(217,237,247,.5);
+}
+
+.bg-success {
+    background-color:rgba(63,182,24,.15);
+}
+
+.bg-danger {
+    background-color:rgba(223, 36, 19, 0.15);
+}
+
+.success{} 
+
+.table>tbody>tr>td.warning {
+    background-color:rgba(223, 36, 19, 0.8);
+}
+
+.table>tbody>tr>td.success {
+    background-color:rgba(19, 200, 36, 0.8);
+}
+
+.bad-link:hover, .bad-link, .bad-link:visited, .bad-link:active, .bad-link:link {
+    color:#aa0044;
+}
+.good-link, .good-link:link, .good-link:hover, .good-link:visited, .good-link:active {
+    color:#00aa00;
+}
+
+
 </style>
 <h2>Results</h2><h3>Two-sample z-test for difference of proportions</h3>
-<div class="bs-callout bs-callout-info">
+<div class="bs-callout bs-callout-info" >
 <h4>Assumptions for statistical inference</h4>
 <h5>Before reviewing the results,
 consider the following assumptions:</h5>
-<ul> <li> Independence assumption </li> 
-     <li> Sample size assumption </li> 
+<ul> 
+    <li> <a href="javascript:;" ng-click="inctrl.indassum_collapse=!inctrl.indassum_collapse"
+           ng-init="inctrl.indassum_collapse=!inctrl.indassum_collapse"> Independence assumption </a></li> 
+        <ul collapse="inctrl.indassum_collapse">
+            <li><b>Randomization Condition: </b><span class="bg-info">The samples should be chosen randomly, with or without replacement.</span></li>
+            <li><b>10% Condition: </b><span class="bg-info">If sampled without replacement, each sample should only contain a small fraction of the population.</span></li>
+            <li><b>Independent Groups Assumption: </b><span class="bg-info">The groups sampled must be independent of 
+                    each other.</span></li>
+        </ul>
+        <li><span class="glyphicon glyphicon-info-sign" ng-if="!tpzt_ctrl.ssa_valid" aria-hidden="true"></span> <a href="javascript:;" ng-click="inctrl.ssa_collapse=!inctrl.ssa_collapse"
+                ng-init="inctrl.ssa_collapse=!inctrl.ssa_collapse">
+                Sample size assumption </a>
+</li> 
+        <ul collapse="inctrl.ssa_collapse">
+            <li><b>Success and Failure Condition: </b><span class="bg-info">The null hypothesis should expect at least five successes and at least five failures.</span></li>
+            <hr />
+            <div class="row"><div class="col-md-5"><table class="table">
+                <tbody>
+                    <tr>
+                        <td>Sample 1 Expected Successes</td> 
+                        <td> 
+                            {{tpzt_ctrl.ex_suc_and_fail[0]}}
+                        </td>
+                        <td>
+                            <span popover="Sample 1: fewer than five expected successes" popover-trigger="mouseenter"
+                                class="glyphicon glyphicon-warning-sign"
+                                ng-if="tpzt_ctrl.ex_suc_and_fail[0]<5" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sample 1 Expected Failures</td>
+                        <td>
+                            {{tpzt_ctrl.ex_suc_and_fail[1]}}
+                        </td>
+                        <td>
+                            <span popover="Sample 1: fewer than five expected failures" popover-trigger="mouseenter" class="glyphicon glyphicon-warning-sign" ng-if="tpzt_ctrl.ex_suc_and_fail[1]<5" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sample 2 Expected Successes</td>
+                        <td>
+                            {{tpzt_ctrl.ex_suc_and_fail[2]}}
+                        </td>
+                        <td>
+                            <span popover="Sample 2: fewer than five expected successes" popover-trigger="mouseenter" class="glyphicon glyphicon-warning-sign" ng-if="tpzt_ctrl.ex_suc_and_fail[2]<5" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sample 2 Expected Failures</td>
+                        <td>
+                            {{tpzt_ctrl.ex_suc_and_fail[3]}}
+                        </td>
+                        <td>
+                            <span popover="Sample 1: fewer than five expected successes" popover-trigger="mouseenter"
+                                class="glyphicon glyphicon-warning-sign"
+                                ng-if="tpzt_ctrl.ex_suc_and_fail[3]<5" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                </tbody>
+                    </table></div></div>
+        </ul>
 </ul> </div>
 </div>
 <div class="bs-callout bs-callout-primary">
 <h4> Results </h4>
 <ul id="result-stats">
-    <li><b>z score:</b> <span id="zmessage"></span></li>
-    <li><b>p value:</b> <span id="pmessage">{{tpzt_ctrl.p_message}}</span></li>
-    We recommend that you <b>{{tpzt_ctrl.bool_reject?'reject':'do not reject'}}</b> the null hypothesis.
+    <li><b><a popover="The z-score is the number of standard errors the observed result is from the expected value according to the null hypothesis. For the two-proportion z-test, it is also the test statistic." popover-trigger="mouseenter" href="javascript:;">z score</a>:</b> <span id="zmessage"></span></li>
+    <li><b><a popover="The p-value is the probability of receiving a result as extreme as or more extreme than the one observed, given the null hypothesis is true." href="javascript:;" popover-trigger="mouseenter">p value</a>:</b> <span id="pmessage">{{tpzt_ctrl.p_message}}</span></li>
+    <p>We recommend that you <a href="javascript:;" popover-template="'app/views/hyptests/tpzt_reject_explanation_template.html'" popover-trigger="mouseenter"><b>{{tpzt_ctrl.bool_reject?'reject':'do not reject'}}</b></a> 
+    the null hypothesis.</p>
+    <div class="row">
+        <div class="col-md-3">
+            <button class="button btn-default form-control" id="showcalc_button"
+                ng-click="inctrl.calculations_collapsed=!inctrl.calculations_collapsed;"
+                ng-init="inctrl.calculations_collapsed=!inctrl.calculations_collapsed" >
+                {{inctrl.calculations_collapsed?'Show Calculations':'Hide Calculations'}}</button>
+        </div>
+    </div>
+    <div collapse="inctrl.calculations_collapsed">
+        <hr />
+        <div tpzt-calculations></div>
+    </div>
 </ul>
 </div>
 <div id="hc-tpzt-curve"></div>
