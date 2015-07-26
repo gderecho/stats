@@ -72,14 +72,99 @@ mark {
     background-color:#fcf8e3;
 }
 
+.bg-info {
+    background-color:rgba(217,237,247,.5);
+}
+
+.bg-success {
+    background-color:rgba(63,182,24,.15);
+}
+
+.bg-danger {
+    background-color:rgba(223, 36, 19, 0.15);
+}
+
+.success{} 
+
+.table>tbody>tr>td.warning {
+    background-color:rgba(223, 36, 19, 0.8);
+}
+
+.table>tbody>tr>td.success {
+    background-color:rgba(19, 200, 36, 0.8);
+}
+
+.bad-link:hover, .bad-link, .bad-link:visited, .bad-link:active, .bad-link:link {
+    color:#aa0044;
+}
+.good-link, .good-link:link, .good-link:hover, .good-link:visited, .good-link:active {
+    color:#00aa00;
+}
+
+
 </style>
 <h2>Results</h2><h3>Two-sample z-test for difference of proportions</h3>
-<div class="bs-callout bs-callout-info">
+<div class="bs-callout bs-callout-info" >
 <h4>Assumptions for statistical inference</h4>
 <h5>Before reviewing the results,
 consider the following assumptions:</h5>
-<ul> <li> Independence assumption </li> 
-     <li> Sample size assumption </li> 
+<ul> 
+    <li> <a href="javascript:;" ng-click="inctrl.indassum_collapse=!inctrl.indassum_collapse"
+           ng-init="inctrl.indassum_collapse=!inctrl.indassum_collapse"> Independence assumption </a></li> 
+        <ul collapse="inctrl.indassum_collapse">
+            <li><b>Randomization Condition: </b><span class="bg-info">The samples should be chosen randomly, with or without replacement.</span></li>
+            <li><b>10% Condition: </b><span class="bg-info">If sampled without replacement, each sample should only contain a small fraction of the population.</span></li>
+            <li><b>Independent Groups Assumption: </b><span class="bg-info">The groups sampled must be independent of 
+                    each other.</span></li>
+        </ul>
+        <li><span class="glyphicon glyphicon-info-sign" ng-if="!tpzt_ctrl.ssa_valid" aria-hidden="true"></span> <a href="javascript:;" ng-click="inctrl.ssa_collapse=!inctrl.ssa_collapse"
+                ng-init="inctrl.ssa_collapse=!inctrl.ssa_collapse">
+                Sample size assumption </a>
+</li> 
+        <ul collapse="inctrl.ssa_collapse">
+            <li><b>Success and Failure Condition: </b><span class="bg-info">The null hypothesis should expect at least five successes and at least five failures.</span></li>
+            <hr />
+            <div class="row"><div class="col-md-5"><table class="table">
+                <tbody>
+                    <tr>
+                        <td>Sample 1 Expected Successes</td> 
+                        <td> 
+                            {{tpzt_ctrl.ex_suc_and_fail[0]}}
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-warning-sign" ng-if="tpzt_ctrl.ex_suc_and_fail[0]<5" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sample 1 Expected Failures</td>
+                        <td>
+                            {{tpzt_ctrl.ex_suc_and_fail[1]}}
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-warning-sign" ng-if="tpzt_ctrl.ex_suc_and_fail[1]<5" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sample 2 Expected Successes</td>
+                        <td>
+                            {{tpzt_ctrl.ex_suc_and_fail[2]}}
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-warning-sign" ng-if="tpzt_ctrl.ex_suc_and_fail[2]<5" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sample 2 Expected Failures</td>
+                        <td>
+                            {{tpzt_ctrl.ex_suc_and_fail[3]}}
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-warning-sign" ng-if="tpzt_ctrl.ex_suc_and_fail[3]<5" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                </tbody>
+                    </table></div></div>
+        </ul>
 </ul> </div>
 </div>
 <div class="bs-callout bs-callout-primary">

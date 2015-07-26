@@ -105,6 +105,10 @@ var tpzt_ctrl =
             && this.n1>=this.x1) ) {
             throw "Error: not all values detected";
         }
+        this.x1_old=this.x1;
+        this.x2_old=this.x2;
+        this.n1_old=this.n1;
+        this.n2_old=this.n2;
         this.phat_1=this.x1/this.n1;
         this.phat_2=this.x2/this.n2;
         this.phat_pooled=(this.x1+this.x2)/(this.n1+this.n2)
@@ -125,17 +129,15 @@ var tpzt_ctrl =
             this.p_message = '$$' + this.pvalue.toString() + '$$';
         }
         this.bool_reject = this.alpha > this.pvalue;
-        this.bool_show=true;
-        if(this.bool_reject)
-        {
-            this.result_message="Because the p-value, <mark>" + this.pvalue
-                + "</mark>, is under our significance level, <mark>" + this.alpha
-                + "</mark>, there is significant evidence against the null hypothesis."
-        }
-        else
-        {
-            this.result_message="YOu are dum.";
-        }
+        this.bool_show=true; 
+        this.ex_suc_and_fail = [this.phat_pooled*this.n1_old,
+            this.n1_old-this.phat_pooled*this.n1_old,
+            this.n2_old*this.phat_pooled,
+            this.n2_old*(1-this.phat_pooled),
+        ];
+        this.indassum_collapse=true;
+        this.ssa_collapse=true;
+        this.ssa_valid = this.ex_suc_and_fail.map(function(x) {return x>=5;}).reduce(function(a,b) {return a && b;});
     };
 }]);
 
