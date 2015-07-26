@@ -12,7 +12,8 @@ inlist_module.directive('gdOnevarResults', function($compile) { return {
                 var detail_desc = document.createElement('td');
                 detail_desc.innerHTML = '<span popover-template="inctrl.popover_text[\''
                     + keys[i]
-                    + '\']" popover-trigger="mouseenter" popover-placement="bottom"><a href="javascript:;">' + (ctrl.detail_desc[keys[i]]) + '</a></span>';
+                    + '\']" popover-trigger="mouseenter" popover-placement="bottom" popover-animation="false"><a href="javascript:;">' 
+                    + (ctrl.detail_desc[keys[i]]) + '</a></span>';
                 row.appendChild(detail_desc);
                 var symbol_desc = document.createElement('td');
                 symbol_desc.innerHTML = 
