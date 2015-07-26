@@ -5,6 +5,14 @@ var hyptests_ctrl = hyptests.controller('choose_test_ctrl', function() {
             this.tests=['Two-sample z-test for proportions','Other test'];
  });
 
+phatdiff_svg='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="39pt" height="13pt" viewBox="0 0 39 13" version="1.1"> <defs> <g> <symbol overflow="visible" id="glyph0-0"> <path style="stroke:none;" d=""/> </symbol> <symbol overflow="visible" id="glyph0-1"> <path style="stroke:none;" d="M 2.921875 -8.296875 L 1.359375 -6.671875 L 1.546875 -6.484375 L 2.921875 -7.71875 L 4.296875 -6.484375 L 4.484375 -6.671875 Z M 2.921875 -8.296875 "/> </symbol> <symbol overflow="visible" id="glyph1-0"> <path style="stroke:none;" d=""/> </symbol> <symbol overflow="visible" id="glyph1-1"> <path style="stroke:none;" d="M 2.375 2.46875 C 2.3125 1.84375 2.265625 0.6875 2.265625 0.125 L 2.375 0.03125 C 2.609375 0.09375 2.84375 0.125 3.078125 0.125 C 4.9375 0.125 6.1875 -1.8125 6.1875 -3.5625 C 6.1875 -4.453125 5.765625 -5.5625 4.546875 -5.5625 C 3.734375 -5.5625 3 -5.1875 2.359375 -4.671875 L 2.265625 -4.71875 C 2.21875 -5.25 2.015625 -5.625 1.484375 -5.625 C 0.953125 -5.625 0.328125 -5.1875 -0.140625 -4.8125 L 0.03125 -4.578125 C 0.3125 -4.75 0.640625 -4.921875 0.890625 -4.921875 C 1.25 -4.921875 1.359375 -4.296875 1.359375 -3.765625 L 1.359375 -1.125 C 1.359375 -0.4375 1.34375 2.015625 1.296875 2.703125 L 1.40625 2.828125 Z M 2.28125 -0.78125 C 2.28125 -0.796875 2.265625 -2.03125 2.265625 -3.015625 C 2.265625 -3.140625 2.296875 -4.046875 2.296875 -4.125 C 2.859375 -4.5625 3.34375 -4.8125 3.953125 -4.8125 C 4.71875 -4.8125 5.1875 -3.890625 5.1875 -2.859375 C 5.1875 -1.71875 4.78125 -0.34375 3.328125 -0.34375 C 2.9375 -0.34375 2.5625 -0.53125 2.28125 -0.78125 Z M 2.28125 -0.78125 "/> </symbol> <symbol overflow="visible" id="glyph2-0"> <path style="stroke:none;" d=""/> </symbol> <symbol overflow="visible" id="glyph2-1"> <path style="stroke:none;" d="M 2.5 -5.078125 C 2.5 -5.296875 2.484375 -5.296875 2.265625 -5.296875 C 1.9375 -4.984375 1.515625 -4.796875 0.765625 -4.796875 L 0.765625 -4.53125 C 0.984375 -4.53125 1.40625 -4.53125 1.875 -4.734375 L 1.875 -0.65625 C 1.875 -0.359375 1.84375 -0.265625 1.09375 -0.265625 L 0.8125 -0.265625 L 0.8125 0 C 1.140625 -0.03125 1.828125 -0.03125 2.1875 -0.03125 C 2.546875 -0.03125 3.234375 -0.03125 3.5625 0 L 3.5625 -0.265625 L 3.28125 -0.265625 C 2.53125 -0.265625 2.5 -0.359375 2.5 -0.65625 Z M 2.5 -5.078125 "/> </symbol> <symbol overflow="visible" id="glyph2-2"> <path style="stroke:none;" d="M 2.25 -1.625 C 2.375 -1.75 2.703125 -2.015625 2.84375 -2.125 C 3.328125 -2.578125 3.796875 -3.015625 3.796875 -3.734375 C 3.796875 -4.6875 3 -5.296875 2.015625 -5.296875 C 1.046875 -5.296875 0.421875 -4.578125 0.421875 -3.859375 C 0.421875 -3.46875 0.734375 -3.421875 0.84375 -3.421875 C 1.015625 -3.421875 1.265625 -3.53125 1.265625 -3.84375 C 1.265625 -4.25 0.859375 -4.25 0.765625 -4.25 C 1 -4.84375 1.53125 -5.03125 1.921875 -5.03125 C 2.65625 -5.03125 3.046875 -4.40625 3.046875 -3.734375 C 3.046875 -2.90625 2.46875 -2.296875 1.515625 -1.34375 L 0.515625 -0.296875 C 0.421875 -0.21875 0.421875 -0.203125 0.421875 0 L 3.5625 0 L 3.796875 -1.421875 L 3.546875 -1.421875 C 3.53125 -1.265625 3.46875 -0.875 3.375 -0.71875 C 3.328125 -0.65625 2.71875 -0.65625 2.59375 -0.65625 L 1.171875 -0.65625 Z M 2.25 -1.625 "/> </symbol> <symbol overflow="visible" id="glyph3-0"> <path style="stroke:none;" d=""/> </symbol> <symbol overflow="visible" id="glyph3-1"> <path style="stroke:none;" d="M 8.421875 -2.828125 L 8.484375 -3.296875 L 0.640625 -3.296875 L 0.546875 -2.828125 Z M 8.421875 -2.828125 "/> </symbol> </g> </defs> <g id="surface1"> <g style="fill:rgb(0%,0%,0%);fill-opacity:1;"> <use xlink:href="#glyph0-1" x="1.764" y="8.859"/> </g> <g style="fill:rgb(0%,0%,0%);fill-opacity:1;"> <use xlink:href="#glyph1-1" x="1.164" y="9.199"/> </g> <g style="fill:rgb(0%,0%,0%);fill-opacity:1;"> <use xlink:href="#glyph2-1" x="8.218" y="10.993"/> </g> <g style="fill:rgb(0%,0%,0%);fill-opacity:1;"> <use xlink:href="#glyph3-1" x="15.607" y="9.199"/> </g> <g style="fill:rgb(0%,0%,0%);fill-opacity:1;"> <use xlink:href="#glyph0-1" x="27.902" y="8.859"/> </g> <g style="fill:rgb(0%,0%,0%);fill-opacity:1;"> <use xlink:href="#glyph1-1" x="27.301" y="9.199"/> </g> <g style="fill:rgb(0%,0%,0%);fill-opacity:1;"> <use xlink:href="#glyph2-2" x="34.355" y="10.992"/> </g> </g> </svg>'
+
+tooltip_table_1='<table class="table table-hover"><thead><th>' + phatdiff_svg +'</th></thead>' + 
+    '<tbody><tr><th>Value:</th><td><span>';
+tooltip_table_2='</span></td></tr><tr><th>z-score:</th><td>'
+tooltip_table_3='</td></tr></tbody>'
+
+
 /* Calculates the error function of a real
  * argument to maximum precision based on
  * the maclaurin series for erf.
@@ -28,8 +36,7 @@ function erf(x) {
     y=x*x;
     s=1;
     t=1;
-    for(k=1;;k++)
-    {
+    for(k=1;;k++) {
         t=y*t;
         t=t/k;
         u=t/(2*k+1);
@@ -65,7 +72,7 @@ function pdf_norm(x)
 
 /* an array with the normal distribution */
 normal_dist_values=[]
-for(x=-6;x<=6;x+=.05)
+for(x=-6;x<=6;x+=.02)
 {
     normal_dist_values.push({x:x,y:pdf_norm(x)});
 }
@@ -135,13 +142,15 @@ hyptests.directive('gdTpztResults', function() {
                     enabled: false,
                 },
                 title: {
-                    text:'Normal Distribution',
+                    text:'Sampling Distribution of  <span style="font-size:80%"><script type="math/tex">\\hat{p}_1-\\hat{p}_2</script></span>',
+                    useHTML:true,
                 },
                 plotOptions:{
                     series:{
                         dataLabels: {
                             useHTML:true,
-                        }
+                        },
+                        turboThreshold: 10000,
                     },
                 },
                 series: [{
@@ -197,25 +206,8 @@ hyptests.directive('gdTpztResults', function() {
                         {
                     type:'scatter',
                     data:[{x:zscore,y:pdf_norm(zscore)},],
-                    color:'#000000',
-                    tooltip:{
-                        //pointFormat:'<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.x}</b><br/>',
-                        pointFormatter: function() {
-                            return '<span style="color:' 
-                                + this.color
-                                + '">\u25CF</span> '
-                                + 'p\u0302<sub>1</sub>-p\u0302<sub>2</sub>'
-                                + '<br /> <b>'
-                                + 'Value:</b> ' 
-                                + tpzt_ctrl.diff.toString()
-                                + '<br /> <b>Test (z) statistic:</b> '
-                                + this.x
-                                + '<br/>'
-                        },
-                        headerFormat:'',
-                        useHTML:true,
-                    },
-                    name:'p\u0302<sub>1</sub>-p\u0302<sub>2</sub>',
+                    color:'#000000', 
+                    name:'<script type="math/tex">\\hat{p}_1-\\hat{p}_2</script>',
                     marker:{
                         symbol:'circle',
                     },
@@ -259,7 +251,18 @@ hyptests.directive('gdTpztResults', function() {
 
                 spacingRight:25,
                 spacingLeft:25,
-
+                tooltip:{
+                    headerFormat:'',
+                    useHTML:true,
+                    backgroundColor:'none',
+                    borderWidth:0,
+                    shadow:false,
+                    padding:0,
+                    //pointFormat:'<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.x}</b><br/>',
+                    pointFormatter: function() {return tooltip_table_1 +
+                        tpzt_ctrl.diff + tooltip_table_2 + tpzt_ctrl.zscore + tooltip_table_3;},
+                    //positioner: function(a,b,point) {return {x:point.plotX, y:point.plotY+100};},
+                }, 
             }); // chart
 
             scope.$evalAsync(function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub,"hc-tpzt-curve"])})
@@ -276,7 +279,6 @@ hyptests.directive('gdTpztResults', function() {
                         /*.sort(function(a,b) {return a.x-b.x})*/
                 mirrordata=normaldist_copy2.filter(
                             function(coord){return (Math.abs(coord.x)>Math.abs(tpzt_ctrl.zscore)) && ((coord.x<0?-1:1) != (tpzt_ctrl.zscore<0?-1:1)) });
-                console.log(mirrordata);
                 chart.series[2].setData(mirrordata);
                         /*.sort(function(a,b) {return a.x-b.x});*/
                 chart.xAxis[0].removePlotLine('xline');
@@ -307,8 +309,6 @@ hyptests.directive('gdDenom',
         require:'ngModel',
         link:function(scope,elem,attrs,ctrl) {
             ctrl.$validators.gdDenom= function(thisval) {
-                console.log(thisval);
-                console.log(scope.denom);
                 if(!thisval || !scope.denom)
                     return true; // let the other 
                                  // error handlers do it
