@@ -19,6 +19,23 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.boxplot_series = [];
     this.bool_update_from_bulk = false;
     this.files=[];
+    this.process_files = function() {
+        if(!this.bool_update_from_bulk)
+            this.update_bulk_area();
+
+        for(index in this.files) {
+            a = new FileReader();
+            _this = this;
+            a.onload = function(out) {
+                _this.bulk_in_area = _this.bulk_in_area + out.target.result;
+                _this.bool_update_from_bulk = true;
+                _this.update_manual_from_bulk();
+                console.log(_this.bulk_in_area);
+            }
+            a.readAsText(this.files[index]);
+            //this.bulk_in_area = this.bulk_in_area + a.result;
+        }
+    }
 
     this.bulk_changed = function()
     {

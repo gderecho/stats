@@ -61,11 +61,14 @@
         <tab heading="Other">
         <div class="form-group">
             <button ngf-drop="true" ngf-select 
-                    ng-model="inctrl.files"
-                class="form-control expand-button">
+                    ng-model="inctrl.files" ngf-multiple="true"
+                    ngf-change="inctrl.process_files()"
+                    class="form-control expand-button">
+                <h3>
                 <p>Drop files here</p>
                 <p><b>or</b></p>
                 <p>Click to upload!</p>
+                </h3>
             </button>
         </div>
         </tab>
