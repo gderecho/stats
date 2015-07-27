@@ -2,7 +2,8 @@ inlist_module.directive('gdOnevarResults', function($compile) { return {
     require:'^ngController', //input_list_ctrl
     templateUrl:'app/views/onevar_results_table.html',
     link: function(scope,elem,attrs,ctrl) {
-        scope.$watch('inctrl.stats', function(stats) {
+        scope.$watch('inctrl.stats_changed', function() {
+            stats = ctrl.stats;
             document.getElementById('onevar_results_main').innerHTML
                 = '';
             innerdivstring = '';

@@ -90,13 +90,13 @@ mod.factory('get_ovar_stats', function() {
             bins.push( {
                 min: i*bin_width + values[0],
                 max: (i+1)*bin_width + values[0],
-                num:0
+                num:0,
+                index:i,
             } );
         }
 
         var b_index = 0;
-        for(v_index in values)
-        {
+        for(v_index in values) {
             var value = values[v_index];
             var min = bins[b_index].min;
             var max = bins[b_index].max;
@@ -113,6 +113,7 @@ mod.factory('get_ovar_stats', function() {
 
         return bins;
     };
+
     var get_points_from_bins = function (bins) {
         histogram_data = [];
         i=0

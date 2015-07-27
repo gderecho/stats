@@ -6,6 +6,9 @@
 .gd-remove-space {
     margin-top:-15px;
 }
+.alert-info {
+    background-color:rgba(153, 84, 187,.85);
+}
 </style>
 <div class="container">
     <h1>One-variable Statistics Calculator</h1>
@@ -18,10 +21,12 @@
         <tab heading="Manual Input" ng-click="inctrl.update_manual_from_bulk()" id="man_input_tab">
         <div class="form-group">
             <label ng-if="inctrl.inputs.length!=0"> Current Values </label>
+            <div ng-if="inctrl.inputs.length>50" class="alert alert-info" role="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                {{inctrl.inputs.length-50}} values not shown</div>
 
             <div class="row">
-                <div class="col-sm-2 gd-extra-space" ng-repeat="input in inctrl.inputs" 
-                    ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':inctrl.check_if_number(inctrl.inputs[$index].text)}"> <!-- todo: fix highlighting when elements removed-->
+                <div class="col-sm-2 gd-extra-space" ng-repeat="input in inctrl.inputs.slice(-50)" 
+                     ng-class="{'has-error':input_list.input{{$index}}.$invalid, 'has-success':inctrl.check_if_number(inctrl.inputs[inctrl.inputs.length>50?$index+inctrl.inputs.length-50:$index].text)}"> <!-- todo: fix highlighting when elements removed-->
                         <input ng-model="input.text" ng-blur="inctrl.check_if_delete_inputs(input)"
                             ng-pattern="inctrl.NUM_PATTERN" name="input{{$index}}"
                             class="form-control" />
@@ -62,7 +67,7 @@
             <h2>Results</h2>
             <div gd-onevar-results></div>
 
-            <div class="hc-histogram col-md-6" values="inctrl.histogram_points" bins="inctrl.histogram_bins"></div>
+            <div class="hc-histogram col-md-6"></div>
             <div class="hc-boxplot col-md-6" 
                  series="inctrl.boxplot_series"></div>
         </div>

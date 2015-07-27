@@ -6,6 +6,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.numbers=[];
     this.editing = [{id:1, text:""}];
     this.curid = 1;
+    this.stats_changed=false;
     // this.NUM_PATTERN = /^\d+$/;
     this.NUM_PATTERN = /(?:^\d+\.?\d*$)|(?:^\d*\.?\d+$)/;
     this.NUM_PATTERN_STRING = this.NUM_PATTERN.toString();
@@ -128,7 +129,6 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
         }
         this.stats=get_ovar_stats.get(this.numbers);
         this.histogram_bins=(get_ovar_stats.get_histogram_data(this.numbers));
-        this.histogram_points =(get_ovar_stats.get_points_from_bins(this.histogram_bins));
         this.boxplot_series = (get_ovar_stats.get_boxplot_series(this.numbers));
         return this.stats;
     }
@@ -136,7 +136,11 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.get_stats = function() {
          //       $timeout( function() {angular.element(document).find('man_input_tab').triggerHandler('click')},0)
         this.update_manual_from_bulk();
-        return this.set_stats();
+        /*var time1 = (new Date()).getTime();*/
+        this.set_stats()
+        /*var time2 = (new Date()).getTime();*/
+        /*console.log("time1 " + time1 + "\ntime2 " + time2 + "\ndiff " + (time2-time1));*/
+        this.stats_changed=!this.stats_changed;
     };
 
 
@@ -164,15 +168,13 @@ inlist_module.directive('hcHistogram', function() {
     return {
         replace:true,
         restrict:'C',
-        scope:{
-            values:"=values",
-            bins:"=bins",
-        },
+        require:'^ngController',
         controller:function($scope,$element,$attrs){
         },
         template:'<div id="hist"></div>',
-        link: function(scope,element,attrs) {
-            if(scope.values.length < 1)
+        link: function(scope,element,attrs,inctrl) {
+            scope.bins = inctrl.histogram_bins;
+            if(scope.bins.length < 1)
                 return;
             var chart = new Highcharts.Chart({
                 chart: {type: 'column',
@@ -180,7 +182,7 @@ inlist_module.directive('hcHistogram', function() {
                     spacingRight:40,
                     spacingLeft:40},
                 title:{text:'Histogram of Values'},
-                series: [{name:'Input Values',data:scope.values}],
+                series: [{name:'Input Values',data:[]}],
                 credits:{enabled:false},
                 plotOptions: {
                     column:{
@@ -195,10 +197,10 @@ inlist_module.directive('hcHistogram', function() {
                 xAxis: {
                     labels:{
                         formatter: function() {
-                            main = scope.bins[this.value].min.
+                            main = scope.bins[Math.round(this.value)].min.
                                 toPrecision(5).toString()
                                     + ', '
-                                    + scope.bins[this.value].max.
+                                    + scope.bins[Math.round(this.value)].max.
                                 toPrecision(5).toString()
                             if(this.value == 0)
                                 return '[' + main + ']';
@@ -221,9 +223,13 @@ inlist_module.directive('hcHistogram', function() {
                     borderWidth:2
                 }
             });
-            scope.$watch("values", function(n) {
+            scope.$watch("inctrl.stats_changed", function() {
+                // time this
+                bins = inctrl.histogram_bins;
+                n = bins.map(function(bin)
+                    {return {x:bin.index, y:bin.num};});
                 chart.series[0].setData(n,true);
-            },true);
+            });
         }
     };
 });
