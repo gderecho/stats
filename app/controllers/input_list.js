@@ -33,7 +33,6 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
                 console.log(_this.bulk_in_area);
             }
             a.readAsText(this.files[index]);
-            //this.bulk_in_area = this.bulk_in_area + a.result;
         }
     }
 
