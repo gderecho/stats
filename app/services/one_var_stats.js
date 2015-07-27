@@ -2,8 +2,10 @@ var mod = angular.module('one_var_stats',[])
 
 mod.factory('get_ovar_stats', function() {
     var get = function(list) {
-        add = function(a,b){return a+b};
-        square = function(a) {return a*a;}
+        if(list.length == 0)
+            return {n:0};
+        add = function(a,b){return a+b;};
+        square = function(a) {return a*a;};
         sum = list.reduce(add)
         avg = sum/list.length
         subavg = function(a) {return a-avg;}

@@ -226,6 +226,7 @@ inlist_module.directive('hcHistogram', function() {
             scope.$watch("inctrl.stats_changed", function() {
                 // time this
                 bins = inctrl.histogram_bins;
+                scope.bins = bins;
                 n = bins.map(function(bin)
                     {return {x:bin.index, y:bin.num};});
                 chart.series[0].setData(n,true);
