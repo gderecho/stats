@@ -10,7 +10,7 @@
     background-color:rgba(153, 84, 187,.85);
 }
 .expand-button {
-    min-height: 300px;
+    min-height: 250px;
 }
 </style>
 <div class="container">
@@ -58,7 +58,7 @@
             <!--<input class="btn btn-default" value="Upload a file" readonly/>-->
         </div>
         </tab>
-        <tab heading="Other">
+        <tab heading="File Input">
         <div class="form-group">
             <button ngf-drop="true" ngf-select 
                     ng-model="inctrl.files" ngf-multiple="true"
@@ -71,6 +71,21 @@
                 </h3>
             </button>
         </div>
+        <div ng-repeat="file in inctrl.files">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Success!
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <b>{{file.name}}</b> has been successfully uploaded! The numbers in the file have been added to the list of inputs. Go to the <code>Bulk Input</code> tab to edit its content, or hit the <code>Calculate one-variable statistics</code> button to calculate immediately.
+                </div>
+            </div>
+        </div>
+        </tab>
+        <tab heading="Random input">
+            <div gd-randinput></div>
         </tab>
         </tabset>
 

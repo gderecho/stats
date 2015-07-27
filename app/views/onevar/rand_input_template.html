@@ -1,0 +1,23 @@
+<form>
+    <h3>Please pick distribution characteristics:</h3>
+    <div class="form-group">
+        <label>Type of distribution: </label>
+        <select class="form-control" ng-model="dist_selected"
+            ng-init="dist_selected=dist_options[0]" 
+            ng-options="option.name for option in dist_options">
+        </select>
+    </div>
+    <div ng-if="dist_selected.key==0" class="form-group">
+        <label> Minimum </label>
+        <input type="number" step="any" ng-model="uniform.minimum" 
+            class="form-control"/>
+        <label> Maximum </label>
+        <input type="number" step="any" ng-model="uniform.maximum" 
+            class="form-control"/>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <button class="form-control btn btn-default">Generate random numbers!</button>
+        </div>
+    </div>
+</form>

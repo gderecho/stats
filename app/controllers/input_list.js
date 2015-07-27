@@ -20,8 +20,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.bool_update_from_bulk = false;
     this.files=[];
     this.process_files = function() {
-        if(!this.bool_update_from_bulk)
-            this.update_bulk_area();
+        this.update_bulk_area();
 
         for(index in this.files) {
             a = new FileReader();
@@ -58,6 +57,8 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
      * populating it with values from
      * the input array */
     this.update_bulk_area = function() {
+        if(this.bool_update_from_bulk)
+            this.update_manual_from_bulk();
         this.bulk_in_area = "";
         for(index in this.inputs)
         {
