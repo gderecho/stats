@@ -98,19 +98,16 @@ mod.factory('get_ovar_stats', function() {
         }
 
         var b_index = 0;
+loop:
         for(v_index in values) {
             var value = values[v_index];
-            var min = bins[b_index].min;
-            var max = bins[b_index].max;
-            if(value >= min && value <= max)
-                bins[b_index].num++;
-            else
+            while(!(value >= bins[b_index].min && value <= bins[b_index].max))
             {
                 b_index++;
                 if(b_index >= bins.length)
-                    break;
-                bins[b_index].num++
+                    break loop;
             }
+            bins[b_index].num++
         }
 
         return bins;
