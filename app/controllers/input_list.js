@@ -8,7 +8,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.curid = 1;
     this.stats_changed=false;
     // this.NUM_PATTERN = /^\d+$/;
-    this.NUM_PATTERN = /(?:^\d+\.?\d*$)|(?:^\d*\.?\d+$)/;
+    this.NUM_PATTERN = /(?:^-?\d+\.?\d*$)|(?:^-?\d*\.?\d+$)/;
     this.NUM_PATTERN_STRING = this.NUM_PATTERN.toString();
 
     this.check_if_number = function(text) {
