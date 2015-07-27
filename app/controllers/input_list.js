@@ -1,4 +1,4 @@
-var inlist_module = angular.module("input_list", ['one_var_stats','ui.bootstrap']);
+var inlist_module = angular.module("input_list", ['one_var_stats','ui.bootstrap','ngFileUpload']);
 
 inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$compile','$scope',function(get_ovar_stats,$timeout,$q,$compile,$scope) {
     this.inputs = [];
@@ -18,6 +18,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.histogram_bins = [];
     this.boxplot_series = [];
     this.bool_update_from_bulk = false;
+    this.files=[];
 
     this.bulk_changed = function()
     {

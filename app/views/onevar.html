@@ -9,6 +9,9 @@
 .alert-info {
     background-color:rgba(153, 84, 187,.85);
 }
+.expand-button {
+    min-height: 300px;
+}
 </style>
 <div class="container">
     <h1>One-variable Statistics Calculator</h1>
@@ -55,7 +58,17 @@
             <!--<input class="btn btn-default" value="Upload a file" readonly/>-->
         </div>
         </tab>
-        <!--<tab heading="Other"><a>Other</a></tab>-->
+        <tab heading="Other">
+        <div class="form-group">
+            <button ngf-drop="true" ngf-select 
+                    ng-model="inctrl.files"
+                class="form-control expand-button">
+                <p>Drop files here</p>
+                <p><b>or</b></p>
+                <p>Click to upload!</p>
+            </button>
+        </div>
+        </tab>
         </tabset>
 
         <button  ng-disabled="input_list.$invalid" class="btn btn-primary"
