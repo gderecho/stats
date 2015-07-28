@@ -29,7 +29,7 @@ inlist_module.directive('gdRandinput', function() {
             MathJax.Hub.Queue(["Typeset",MathJax.Hub,'nrandn']);
             scope.dist_options=[{key:0, name:'Uniform distribution'},
                 {key:1, name:'Gaussian (normal) distribution'},
-                {key:2, name:'Chi squared distribution'}];
+                /*{key:2, name:'Chi squared distribution'}*/];
             scope.dist_selected=scope.dist_options[0];
             scope.uniform={minimum:0,maximum:10};
             scope.gaussian={mu:0,sigma:1};
