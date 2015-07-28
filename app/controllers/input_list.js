@@ -1,4 +1,4 @@
-var inlist_module = angular.module("input_list", ['one_var_stats','ui.bootstrap']);
+var inlist_module = angular.module("input_list", ['one_var_stats','ui.bootstrap','ngFileUpload']);
 
 inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$compile','$scope',function(get_ovar_stats,$timeout,$q,$compile,$scope) {
     this.inputs = [];
@@ -18,6 +18,22 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.histogram_bins = [];
     this.boxplot_series = [];
     this.bool_update_from_bulk = false;
+    this.files=[];
+    this.process_files = function() {
+        this.update_bulk_area();
+
+        for(index in this.files) {
+            a = new FileReader();
+            _this = this;
+            a.onload = function(out) {
+                _this.bulk_in_area = _this.bulk_in_area + out.target.result;
+                _this.bool_update_from_bulk = true;
+                _this.update_manual_from_bulk();
+                console.log(_this.bulk_in_area);
+            }
+            a.readAsText(this.files[index]);
+        }
+    }
 
     this.bulk_changed = function()
     {
@@ -41,6 +57,8 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
      * populating it with values from
      * the input array */
     this.update_bulk_area = function() {
+        if(this.bool_update_from_bulk)
+            this.update_manual_from_bulk();
         this.bulk_in_area = "";
         for(index in this.inputs)
         {

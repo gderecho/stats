@@ -3,7 +3,8 @@ var stats_app = angular.module('stats_app',[
         'one_var_stats',
         'ui.bootstrap',
         'hyptests',
-        'ngRoute']
+        'ngRoute',
+        'ngFileUpload',]
         );
 
 stats_app.config(['$routeProvider', function($routeProvider) {
