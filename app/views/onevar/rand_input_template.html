@@ -1,4 +1,5 @@
-<form>
+<style>.top-space {margin-top:15px;}</style>
+<div>
     <h3>Please pick distribution characteristics:</h3>
     <div class="form-group">
         <label>Type of distribution: </label>
@@ -7,17 +8,80 @@
             ng-options="option.name for option in dist_options">
         </select>
     </div>
-    <div ng-if="dist_selected.key==0" class="form-group">
-        <label> Minimum </label>
-        <input type="number" step="any" ng-model="uniform.minimum" 
-            class="form-control"/>
-        <label> Maximum </label>
-        <input type="number" step="any" ng-model="uniform.maximum" 
-            class="form-control"/>
+    <div ng-if="dist_selected.key==0">
+        <div class="form-group">
+            <label> Minimum </label>
+            <input type="number" step="any" ng-model="uniform.minimum" 
+                class="form-control" />
+        </div>
+        <div class="form-group">
+            <label> Maximum </label>
+            <input type="number" step="any" ng-model="uniform.maximum" 
+                class="form-control" />
+        </div>
+    </div>
+    <div ng-if="dist_selected.key==1" id="gauss_render">
+        <div class="form-group">
+            <label> Mean </label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <script type="math/tex">\mu=</script>
+                </span>
+                <input type="number" step="any" ng-model="gaussian.mu" 
+                    class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label> Standard Deviation </label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <script type="math/tex">\sigma=</script>
+                </span>
+                <input type="number" step="any" ng-model="gaussian.sigma" 
+                    class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div ng-if="dist_selected.key==2" id="chi2_render">
+        <div class="form-group">
+            <label> Degrees of freedom </label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <script type="math/tex">k=</script>
+                </span>
+                <input type="number" step="any" ng-model="chi2.k" 
+                    class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Number of random numbers</label>
+        <div class="input-group">
+            <span class="input-group-addon"><script type="math/tex" id="nrandn">n=</script></span>
+            <input class="form-control" 
+                   placeholder="# to generate"
+                   ng-model="n" />
+        </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <button class="form-control btn btn-default">Generate random numbers!</button>
+            <button class="form-control form-group btn btn-default" 
+                ng-click="get_random()" type="button">
+                Generate random numbers!
+            </button>
         </div>
     </div>
-</form>
+    <div class="form-group top-space" ng-if="generated_rand">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Random numbers generated from <b>{{prev_name}}</b>
+            </div>
+            <div class="panel-body">
+                <p>List of {{generated_rand.length>50?'last 50':''}} numbers:</p>
+                <p><span ng-repeat="number in generated_rand.slice(-50)" ng-bind="number + ', '"></span></p>
+                <p>All numbers were appended <b>automatically</b> to the list of inputs. To edit them, click <code>Bulk Input</code> above. To calculate statistics, press <code>Calculate one-variable statistics</code> below.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
