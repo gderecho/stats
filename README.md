@@ -4,9 +4,14 @@ A basic statistics calculator.
 
 Currently, it is a static webapp that calculates one-variable statistics and does two-proportion z-tests.
 
+
 Features include:
  * Mathjax rendering
  * Highcharts charts
+
+I recommend using Chromium/Chrome or the latest version of
+IE on a computer (not a phone). Some of the popovers don't
+seem to work with the latest version of Firefox/Iceweasel.
 
 If you want to run this app on a local machine, please run a
 local web server. Otherwise, some browsers will fail the 
