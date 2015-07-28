@@ -36,9 +36,15 @@ inlist_module.directive('gdRandinput', function() {
             scope.chi2={k:1};
             scope.n = undefined;
             scope.get_random = function() {
+                if(!scope.n)
+                    scope.n=1
                 if(scope.dist_selected.key == 0)  { //uniform
                     scope.prev_name='uniform distribution';
                     scope.generated_rand = []
+                    if(!scope.uniform.maximum && scope.uniform.maximum != 0)
+                        scope.uniform.maximum=1;
+                    if(!scope.uniform.minimum && scope.uniform.minimum != 0)
+                        scope.uniform.minimum=0;
                     for(var i=0;i<scope.n;i++) {
                         var r = rand_uniform(
                                 scope.uniform.minimum,
@@ -51,6 +57,10 @@ inlist_module.directive('gdRandinput', function() {
                 } else if(scope.dist_selected.key == 1) { //gauss
                     scope.prev_name='normal distribution'
                     scope.generated_rand = []
+                    if(!scope.gaussian.mu)
+                        scope.gaussian.mu=0;
+                    if(!scope.gaussian.sigma && scope.uniform.sigma != 0)
+                        scope.gaussian.sigma=1;
                     for(var i=0;i<scope.n;i++) {
                         var r = rand_gaussian(
                                 scope.gaussian.mu,
