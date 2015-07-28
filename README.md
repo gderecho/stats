@@ -1,6 +1,6 @@
 #Stats
 
-A basic statistics calculator.
+[A basic statistics calculator.](http://gderecho.github.io/stats/#/onevar)
 
 Currently, it is a static webapp that calculates one-variable statistics and does two-proportion z-tests.
 
