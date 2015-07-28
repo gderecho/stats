@@ -44,10 +44,11 @@
             <div class="input-group col-md-4">
                 <!-- ng-class="{'has-warning':form_twopropz.input_nullhyp_diff.$invalid}"-->
                 <span class="input-group-addon"><script type="math/tex">H_A: p_1-p_2</script></span>
-                    <select class="form-control"> 
-                        <option><script type="math/tex">\ne</script></option>
-                        <!--<option>\(&gt;\)</option>
-                            <option>\(&lt;\)</option>-->
+                    <select class="form-control" ng-model="tpzt_ctrl.althyp_id"
+                        ng-init="tpzt_ctrl.althyp_id='0'">
+                        <option value="0"><script type="math/tex">\ne</script></option>
+                        <option value="1"><script type="math/tex">></script></option>
+                        <option value="2"><script type="math/tex"><</script></option>
                     </select>
                     <span class="input-group-addon">{{tpzt_ctrl.nulldiff}}</span>
                 </div>
