@@ -73,16 +73,20 @@ mod.factory('get_ovar_stats', function() {
         q1 = summary.q1;
         q3 = summary.q3;
 
-        //var bin_width = 2 * iqr * Math.pow((values.length),-1/3);
-        //var num_bins = Math.ceil((values[values.length-1]-values[0])/bin_width);
-        var num_bins = Math.ceil(Math.log(values.length)/Math.log(2) + 1)
-        var bin_width = (values[values.length-1]-values[0])/num_bins
+        var bin_width = 2 * (q3-q1) * Math.pow((values.length),-1/3);
+        if (bin_width == 0)
+            return [{min:values[0],max:values[0],num:values.length}];
+        var num_bins = Math.ceil((values[values.length-1]-values[0])/bin_width);
+        //var num_bins = Math.ceil(Math.log(values.length)/Math.log(2) + 1)
+        if (num_bins == 0)
+            return [{min:values[0],max:values[0],num:values.length}];
+        bin_width = (values[values.length-1]-values[0])/num_bins
         if (bin_width == 0)
             return [{min:values[0],max:values[0],num:values.length}];
         // there are limits
         if(num_bins > 100)
         {
-            bin_width = (values[values.length-1]-values[0])/6;
+            bin_width = (values[values.length-1]-values[0])/100;
             num_bins = Math.ceil((values[values.length-1]-values[0])/bin_width);
         }
 
