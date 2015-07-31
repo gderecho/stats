@@ -16,6 +16,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     };
     this.histogram_points = [];
     this.histogram_bins = [];
+    this.bin_width=0;
     this.boxplot_series = [];
     this.bool_update_from_bulk = false;
     this.files=[];
@@ -147,6 +148,10 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
         }
         this.stats=get_ovar_stats.get(this.numbers);
         this.histogram_bins=(get_ovar_stats.get_histogram_data(this.numbers));
+        if(this.histogram_bins && this.histogram_bins.length > 0) {
+            this.bin_width = 
+                this.histogram_bins[0].max-this.histogram_bins[0].min;
+        }
         this.boxplot_series = (get_ovar_stats.get_boxplot_series(this.numbers));
         return this.stats;
     }
@@ -191,8 +196,7 @@ inlist_module.directive('hcHistogram', function() {
         },
         template:'<div id="hist"></div>',
         link: function(scope,element,attrs,inctrl) {
-            scope.bins = inctrl.histogram_bins;
-            if(scope.bins.length < 1)
+            if(inctrl.histogram_bins < 1)
                 return;
             var chart = new Highcharts.Chart({
                 chart: {type: 'column',
@@ -213,18 +217,6 @@ inlist_module.directive('hcHistogram', function() {
                     }
                 },
                 xAxis: {
-                    labels:{
-                        formatter: function() {
-                            main = scope.bins[Math.round(this.value)].min.
-                                toPrecision(5).toString()
-                                    + ', '
-                                    + scope.bins[Math.round(this.value)].max.
-                                toPrecision(5).toString()
-                            if(this.value == 0)
-                                return '[' + main + ']';
-                            return '(' + main + ']';
-                        }
-                    }
                 },
                 yAxis: {
                     allowDecimals:false,
@@ -233,10 +225,15 @@ inlist_module.directive('hcHistogram', function() {
                 tooltip: {
                     formatter: function()
                     {
+                        if(this.point.first == true)
+                            return 'Frequency: ' + this.y.toString() 
+                            + '<br />'  + 'Range: [' +
+                            (this.x-inctrl.bin_width/2) + ', ' +
+                            (this.x+inctrl.bin_width/2) + ']';
                         return 'Frequency: ' + this.y.toString() 
-                            + '<br />'  + 'Range: '
-                            + scope.bins[this.x].min.toPrecision(5).toString()
-                            + " to " + scope.bins[this.x].max.toPrecision(5).toString();
+                            + '<br />'  + 'Range: (' +
+                            (this.x-inctrl.bin_width/2) + ', ' +
+                            (this.x+inctrl.bin_width/2) + ']';
                     },
                     borderWidth:2
                 }
@@ -244,9 +241,9 @@ inlist_module.directive('hcHistogram', function() {
             scope.$watch("inctrl.stats_changed", function() {
                 // time this
                 bins = inctrl.histogram_bins;
-                scope.bins = bins;
                 n = bins.map(function(bin)
-                    {return {x:bin.index, y:bin.num};});
+                    {return {x:(bin.min+bin.max)/2, y:bin.num,};});
+                n[0].first = true;
                 chart.series[0].setData(n,true);
             });
         }

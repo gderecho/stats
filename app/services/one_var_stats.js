@@ -16,8 +16,8 @@ mod.factory('get_ovar_stats', function() {
                 s:s,
                 s2:s2,
                 sum:sum,
-                max:Math.max.apply(null,list),
-                min:Math.min.apply(null,list)
+                max:list.reduce(function(a,b) {return a>b?a:b;}),
+                min:list.reduce(function(a,b) {return a>b?a:b;}),
         };
 
     };
