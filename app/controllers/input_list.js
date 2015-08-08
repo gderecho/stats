@@ -159,6 +159,7 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
     this.get_stats = function() {
          //       $timeout( function() {angular.element(document).find('man_input_tab').triggerHandler('click')},0)
         this.update_manual_from_bulk();
+        this.check_if_delete_editing(this.editing[0]);
         /*var time1 = (new Date()).getTime();*/
         this.set_stats()
         /*var time2 = (new Date()).getTime();*/
