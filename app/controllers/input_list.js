@@ -164,6 +164,8 @@ inlist_module.controller("input_list_ctrl", ['get_ovar_stats','$timeout','$q','$
         /*var time2 = (new Date()).getTime();*/
         /*console.log("time1 " + time1 + "\ntime2 " + time2 + "\ndiff " + (time2-time1));*/
         this.stats_changed=!this.stats_changed;
+        if(this.pause_transfer)
+            delete this.pause_transfer;
     };
 
 
