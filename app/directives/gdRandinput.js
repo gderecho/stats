@@ -51,6 +51,7 @@ inlist_module.directive('gdRandinput', function() {
                                 scope.uniform.maximum);
                         scope.generated_rand.push(r);
                         inctrl.curid++;
+                        inctrl.update_manual_from_bulk();
                         inctrl.inputs.push({id:inctrl.curid,
                             text:r.toString()});
                     }
@@ -67,6 +68,7 @@ inlist_module.directive('gdRandinput', function() {
                                 scope.gaussian.sigma);
                         scope.generated_rand.push(r);
                         inctrl.curid++;
+                        inctrl.update_manual_from_bulk();
                         inctrl.inputs.push({id:inctrl.curid,
                             text:r.toString()});
                     }
