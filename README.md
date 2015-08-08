@@ -4,6 +4,9 @@
 
 Currently, it is a static webapp that calculates one-variable statistics and does two-proportion z-tests.
 
+Screenshots:
+![FirstImage](/app/images/statsshot1.png)
+![SecondImage](/app/images/statsshot3.png)
 
 Features include:
  * Mathjax rendering
